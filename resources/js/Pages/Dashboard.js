@@ -1,20 +1,70 @@
-import React from 'react';
-import Authenticated from '@/Layouts/Authenticated';
-import { Head } from '@inertiajs/inertia-react';
+import React, { useRef, useCallback } from "react";
+import Authenticated from "@/Layouts/Authenticated";
+import { Head } from "@inertiajs/inertia-react";
+import Map from "@/Components/Map";
+import BarChart from "@/Components/BarChart";
+
+const navigation = [
+    // { name: '服務項目', href: 'service' },
+    { name: "聯繫我們", href: "/contact" },
+];
 
 export default function Dashboard(props) {
+    // useEffect(() => {
+    //   return;
+    //   fetch('http://ip-api.com/batch?lang=zh-CN', {
+    //     method: 'POST', // or 'PUT'
+    //     body: JSON.stringify([
+    //       '122.96.33.54',
+    //       '42.249.36.213',
+    //       '223.104.161.168',
+    //       '223.97.54.170'
+    //     ]), // data can be `string` or {object}!
+    //     headers: new Headers({
+    //       'Content-Type': 'application/json'
+    //     })
+    //   }).then(res => res.json()).then(res => {
+    //     console.log(res)
+    //   })
+    // })
+
     return (
-        <Authenticated
-            auth={props.auth}
-            errors={props.errors}
-            header={<h2 className="font-semibold text-xl text-gray-800 leading-tight">Dashboard</h2>}
-        >
+        <Authenticated auth={props.auth} errors={props.errors}>
             <Head title="Dashboard" />
 
-            <div className="py-12">
-                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                        <div className="p-6 bg-white border-b border-gray-200">You're logged in!</div>
+            <div className="pb-12">
+                <div className="containe mx-auto">
+                    <div className="relative h-screen min-h-screen bg-red-100 border-b border-gray-200">
+                        <div className="absolute top-0 left-0 pt-[128px] px-8 z-10">
+                            <div className="px-6 pt-6 h-[402px] w-[306px] bg-white/90  rounded-lg border border-gray-300 backdrop-opacity-10">
+                                <div className="py-2">
+                                    <dt className="text-sm font-medium text-gray-500 truncate">
+                                        過去 30 分鐘的使用者
+                                    </dt>
+                                    <dd className="mt-1 text-3xl font-semibold text-gray-900">
+                                        71,897
+                                    </dd>
+                                </div>
+                                <div className="py-2">
+                                    <dt className="text-sm font-medium text-gray-500 truncate">
+                                        每分鐘的使用者
+                                    </dt>
+                                    <dd className="mt-1 text-3xl font-semibold text-gray-900">
+                                        <BarChart />
+                                    </dd>
+                                </div>
+                                <div className="py-2">
+                                    <dt className="text-sm font-medium text-gray-500 truncate">
+                                        過去 30 分鐘的使用者
+                                    </dt>
+                                    <dd className="mt-1 text-3xl font-semibold text-gray-900">
+                                        71,897
+                                    </dd>
+                                </div>
+                            </div>
+                        </div>
+
+                        <Map className="absolute top-0 left-0 w-full min-h-[550px] h-1/2" />
                     </div>
                 </div>
             </div>
