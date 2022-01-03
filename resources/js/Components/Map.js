@@ -4,7 +4,7 @@ import mapboxgl from "mapbox-gl";
 mapboxgl.accessToken =
     "pk.eyJ1IjoiY2hhb3llbnBvIiwiYSI6ImNrd241bDFoODJpbncyb3FiOWl2dWh5M2oifQ.xCwkQjChmmpM8g_f6U64pw";
 
-const Map = ({ className = "" }) => {
+const Map = ({ className = "", handelLoaded = () => {} }) => {
     const mapContainer = useRef(null);
     const map = useRef(null);
 
@@ -26,6 +26,11 @@ const Map = ({ className = "" }) => {
         });
 
         map.current.addControl(new mapboxgl.FullscreenControl());
+
+        map.current.on("load", () => {
+            handelLoaded();
+            console.log("A load event occurred.");
+        });
     });
 
     // useEffect(() => {

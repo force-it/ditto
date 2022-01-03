@@ -1,8 +1,9 @@
-import React, { useRef, useCallback } from "react";
+import React, { useRef, useCallback, useEffect, useState } from "react";
 import Authenticated from "@/Layouts/Authenticated";
 import { Head } from "@inertiajs/inertia-react";
 import Map from "@/Components/Map";
 import BarChart from "@/Components/BarChart";
+import counterUp from "counterup2";
 
 const navigation = [
     // { name: '服務項目', href: 'service' },
@@ -10,6 +11,23 @@ const navigation = [
 ];
 
 export default function Dashboard(props) {
+    const [loaded, setLoaded] = useState(false);
+    const onLoaded = useCallback(() => {
+        setLoaded(true);
+    }, []);
+
+    useEffect(() => {
+        if (loaded) {
+            Array.from(document.querySelectorAll(".countup")).forEach(
+                (element) => {
+                    counterUp(element, {
+                        duration: 640,
+                        delay: 32,
+                    });
+                }
+            );
+        }
+    }, [loaded]);
     // useEffect(() => {
     //   return;
     //   fetch('http://ip-api.com/batch?lang=zh-CN', {
@@ -41,8 +59,8 @@ export default function Dashboard(props) {
                                     <dt className="text-sm font-medium text-gray-500 truncate">
                                         過去 30 分鐘的使用者
                                     </dt>
-                                    <dd className="mt-1 text-3xl font-semibold text-gray-900">
-                                        71,897
+                                    <dd className="mt-1 text-3xl font-semibold text-gray-900 countup">
+                                        {loaded ? "71,897" : "-"}
                                     </dd>
                                 </div>
                                 <div className="py-2">
@@ -57,14 +75,17 @@ export default function Dashboard(props) {
                                     <dt className="text-sm font-medium text-gray-500 truncate">
                                         過去 30 分鐘的使用者
                                     </dt>
-                                    <dd className="mt-1 text-3xl font-semibold text-gray-900">
-                                        71,897
+                                    <dd className="mt-1 text-3xl font-semibold text-gray-900 countup">
+                                        {loaded ? "1,297" : "-"}
                                     </dd>
                                 </div>
                             </div>
                         </div>
 
-                        <Map className="absolute top-0 left-0 w-full min-h-[550px] h-1/2" />
+                        <Map
+                            className="absolute top-0 left-0 w-full min-h-[550px] h-1/2"
+                            handelLoaded={onLoaded}
+                        />
                     </div>
                 </div>
             </div>
