@@ -107,13 +107,13 @@ const BarChart = ({ className = "", data }) => {
         const x = d3
             .scaleBand()
             .range([0, graphWidth])
-            .paddingInner(0.2)
-            .paddingOuter(0.2);
+            .paddingInner(0.15)
+            .paddingOuter(0.15);
         const highlightX = d3
             .scaleBand()
             .range([0, graphWidth])
-            .paddingInner(0.2)
-            .paddingOuter(0.2);
+            .paddingInner(0.15)
+            .paddingOuter(0.15);
 
         // create & call axes
         const xAxis = d3.axisBottom(x);
@@ -140,10 +140,10 @@ const BarChart = ({ className = "", data }) => {
                 .enter()
                 .append("rect")
                 .attr("width", x.bandwidth)
-                .attr("height", graphHeight)
+                .attr("height", (d) => 0)
                 .attr("fill", "orange")
                 .attr("x", (d) => x(d.name))
-                .attr("y", 0)
+                .attr("y", (d) => graphHeight)
                 .transition(t)
                 .attr("height", (d) => graphHeight - y(d.orders))
                 .attr("y", (d) => y(d.orders));

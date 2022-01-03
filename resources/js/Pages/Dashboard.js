@@ -1,9 +1,18 @@
-import React, { useRef, useCallback, useEffect, useState } from "react";
+import React, {
+    useRef,
+    useCallback,
+    useEffect,
+    useState,
+    useMemo,
+} from "react";
 import Authenticated from "@/Layouts/Authenticated";
 import { Head } from "@inertiajs/inertia-react";
 import Map from "@/Components/Map";
 import BarChart from "@/Components/BarChart";
+import DonutChart from "@/Components/DonutChart";
 import counterUp from "counterup2";
+import { borderWidth } from "tailwindcss/defaultTheme";
+import { forEach } from "lodash";
 
 const navigation = [
     // { name: '服務項目', href: 'service' },
@@ -13,7 +22,6 @@ const navigation = [
 const data = Array.from({ length: 30 }, (_, i) => ({
     name: (i - 29) * -1,
     orders: getRandom(101),
-    device: getRandom(3),
 }));
 
 function getRandom(x) {
@@ -25,13 +33,42 @@ export default function Dashboard(props) {
     const onLoaded = useCallback(() => {
         setLoaded(true);
     }, []);
-    const calcAmount = useCallback(() => {
-        return new Intl.NumberFormat().format(
-            data.reduce((preValue, currentValue) => {
-                return { orders: preValue.orders + currentValue.orders };
-            }).orders
-        );
+    const userCount = useMemo(() => {
+        return data.reduce((preValue, currentValue) => {
+            return { orders: preValue.orders + currentValue.orders };
+        }).orders;
     }, [data]);
+
+    const devices = useMemo(() => {
+        const mobile = Math.floor(Math.random() * userCount);
+        const desktop = Math.floor(Math.random() * (userCount - mobile));
+        const table = userCount - mobile - desktop;
+
+        const mobilePercent = Math.round((mobile / userCount) * 1000) / 10;
+        const desktopPercent = Math.round((desktop / userCount) * 1000) / 10;
+        const tablePercent =
+            Math.round((100 - mobilePercent - desktopPercent) * 10) / 10;
+
+        return [
+            {
+                name: "mobile",
+                count: mobile,
+                percent: mobilePercent,
+            },
+            {
+                name: "desktop",
+                count: desktop,
+                percent: desktopPercent,
+            },
+            {
+                name: "table",
+                count: table,
+                percent: tablePercent,
+            },
+        ].sort(function (a, b) {
+            return a.count - b.count;
+        });
+    }, [userCount]);
 
     useEffect(() => {
         if (loaded) {
@@ -74,15 +111,19 @@ export default function Dashboard(props) {
                         <div className="absolute top-0 left-0 pt-[128px] px-8 z-10">
                             <div className="px-6 pt-6 h-[402px] w-[306px] bg-white/90  rounded-lg border border-gray-300 backdrop-opacity-10">
                                 <div className="py-2">
-                                    <dt className="text-sm font-medium text-gray-500 truncate">
+                                    <dt className="text-xs font-medium text-gray-500 truncate">
                                         過去 30 分鐘的使用者
                                     </dt>
                                     <dd className="mt-1 text-3xl font-semibold text-gray-900 countup">
-                                        {loaded ? calcAmount() : "-"}
+                                        {loaded
+                                            ? new Intl.NumberFormat().format(
+                                                  userCount
+                                              )
+                                            : "-"}
                                     </dd>
                                 </div>
                                 <div className="py-2">
-                                    <dt className="text-sm font-medium text-gray-500 truncate">
+                                    <dt className="text-xs font-medium text-gray-500 truncate">
                                         每分鐘的使用者
                                     </dt>
                                     <dd className="mt-1 text-3xl font-semibold text-gray-900">
@@ -90,16 +131,47 @@ export default function Dashboard(props) {
                                     </dd>
                                 </div>
                                 <div className="py-2">
-                                    <dt className="text-sm font-medium text-gray-500 truncate">
+                                    <dt className="text-xs font-medium text-gray-500 truncate">
                                         過去 30 分鐘的使用者
                                     </dt>
                                     <dd className="mt-1 text-3xl font-semibold text-gray-900 countup">
-                                        {loaded ? calcAmount() : "-"}
+                                        <DonutChart data={devices} />
                                     </dd>
+                                    <div className="flex ">
+                                        {devices.map((device, i) => (
+                                            <div
+                                                key={device.name}
+                                                className="flex-1 h-[54px] mr-2"
+                                            >
+                                                <div className="flex py-1 px-2 rounded-md hover:bg-slate-100">
+                                                    <div
+                                                        className="h-[6px] w-[6px] rounded-full text-center align-middle"
+                                                        style={{
+                                                            backgroundColor: [
+                                                                "orange",
+                                                                "#ffc26c",
+                                                                "#ffe0b5",
+                                                            ][i],
+                                                            lineHight: "6px",
+                                                            margin: "5px 5px 0 0",
+                                                        }}
+                                                    ></div>
+
+                                                    <div className="flex flex-col">
+                                                        <span className="text-xs text-gray-500">
+                                                            {device.name.toUpperCase()}
+                                                        </span>
+                                                        <span className="text-lg">
+                                                            {device.percent}%
+                                                        </span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        ))}
+                                    </div>
                                 </div>
                             </div>
                         </div>
-
                         <Map
                             className="absolute top-0 left-0 w-full min-h-[550px] h-1/2"
                             handelLoaded={onLoaded}
