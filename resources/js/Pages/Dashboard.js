@@ -10,11 +10,28 @@ const navigation = [
     { name: "聯繫我們", href: "/contact" },
 ];
 
+const data = Array.from({ length: 30 }, (_, i) => ({
+    name: (i - 29) * -1,
+    orders: getRandom(101),
+    device: getRandom(3),
+}));
+
+function getRandom(x) {
+    return Math.floor(Math.random() * x);
+}
+
 export default function Dashboard(props) {
     const [loaded, setLoaded] = useState(false);
     const onLoaded = useCallback(() => {
         setLoaded(true);
     }, []);
+    const calcAmount = useCallback(() => {
+        return new Intl.NumberFormat().format(
+            data.reduce((preValue, currentValue) => {
+                return { orders: preValue.orders + currentValue.orders };
+            }).orders
+        );
+    }, [data]);
 
     useEffect(() => {
         if (loaded) {
@@ -28,6 +45,7 @@ export default function Dashboard(props) {
             );
         }
     }, [loaded]);
+
     // useEffect(() => {
     //   return;
     //   fetch('http://ip-api.com/batch?lang=zh-CN', {
@@ -60,7 +78,7 @@ export default function Dashboard(props) {
                                         過去 30 分鐘的使用者
                                     </dt>
                                     <dd className="mt-1 text-3xl font-semibold text-gray-900 countup">
-                                        {loaded ? "71,897" : "-"}
+                                        {loaded ? calcAmount() : "-"}
                                     </dd>
                                 </div>
                                 <div className="py-2">
@@ -68,7 +86,7 @@ export default function Dashboard(props) {
                                         每分鐘的使用者
                                     </dt>
                                     <dd className="mt-1 text-3xl font-semibold text-gray-900">
-                                        <BarChart />
+                                        <BarChart data={data} />
                                     </dd>
                                 </div>
                                 <div className="py-2">
@@ -76,7 +94,7 @@ export default function Dashboard(props) {
                                         過去 30 分鐘的使用者
                                     </dt>
                                     <dd className="mt-1 text-3xl font-semibold text-gray-900 countup">
-                                        {loaded ? "1,297" : "-"}
+                                        {loaded ? calcAmount() : "-"}
                                     </dd>
                                 </div>
                             </div>

@@ -4,14 +4,6 @@ import * as d3 from "d3";
 const margin = { top: 0, right: 0, bottom: 0, left: 0 };
 const graphWidth = 256 - margin.left - margin.right;
 const graphHeight = 44 - margin.top - margin.bottom;
-const data = Array.from({ length: 30 }, (_, i) => ({
-    name: i,
-    orders: getRandom(30),
-}));
-
-function getRandom(x) {
-    return Math.floor(Math.random() * x);
-}
 
 function getSiblings(e) {
     // for collecting siblings
@@ -36,24 +28,56 @@ function getSiblings(e) {
     return siblings;
 }
 
-const BarChart = ({ className = "" }) => {
+const BarChart = ({ className = "", data }) => {
     const canvas = useRef(null);
     const svg = useRef(null);
     const graph = useRef(null);
     const xAxisGroup = useRef(null);
     const yAxisGroup = useRef(null);
     const rects = useRef(null);
+    const tooltip = useRef(null);
 
     useEffect(() => {
         if (svg.current) return;
 
         const handleMouseOver = (event, d) => {
+            // document.documentElement.requestFullscreen();
             let siblings = getSiblings(event.currentTarget);
-            d3.selectAll(siblings).attr("fill-opacity", "0.4 ");
+            d3.selectAll(siblings).attr("fill-opacity", "0.5 ");
+
+            d3.select(tooltip.current.firstChild).attr(
+                "class",
+                "absolute px-5 py-5 w-32 bg-white rounded-md drop-shadow"
+            );
         };
         const handleMouseOut = (event, d) => {
             let siblings = getSiblings(event.currentTarget);
             d3.selectAll(siblings).attr("fill-opacity", "0");
+
+            d3.select(tooltip.current.firstChild).attr(
+                "class",
+                "absolute invisible"
+            );
+        };
+        const handleMouseMove = (event, d) => {
+            d3.select(tooltip.current.firstChild)
+                .html(
+                    `
+                    <p class='text-gray-500 text-xs font-normal'>
+                        ${d.name} 分鐘前
+                    </p>
+                    <div class="flex mt-3">
+                        <span class='text-xs font-normal'>
+                            使用者
+                        </span>
+                        <span class='ml-auto text-xs font-black'>
+                            ${d.orders}
+                        </span>
+                    </div>
+                `
+                )
+                .style("left", d3.pointer(event)[0] + 10 + "px")
+                .style("top", d3.pointer(event)[1] - 15 + "px");
         };
 
         svg.current = d3
@@ -110,14 +134,6 @@ const BarChart = ({ className = "" }) => {
             y.domain([deviation, maximumY]);
             x.domain(data.map((item) => item.name));
             highlightX.domain(data.map((item) => item.name));
-            // add attrs to rects already in the DOM
-            // rects.current
-            //     .attr("width", x.bandwidth)
-            //     .attr("fill", "orange")
-            //     .attr("x", (d) => x(d.name))
-            //     .transition(t)
-            //     .attr("height", (d) => graphHeight - y(d.orders))
-            //     .attr("y", (d) => y(d.orders));
 
             // append the enter selection to the DOM
             rects.current
@@ -141,31 +157,29 @@ const BarChart = ({ className = "" }) => {
                 .attr("fill", "#fff")
                 .attr("fill-opacity", 0)
                 .attr("x", (d) => highlightX(d.name))
-                .attr("y", 1);
-
-            // .append("rect")
-            // .attr("width", x.bandwidth)
-            // .attr("height", (d) => graphHeight - y(d.orders))
-            // .attr("fill", "orange")
-            // .attr("x", (d) => x(d.name))
-            // .attr("y", (d) => graphHeight);
+                .attr("y", 0);
 
             xAxisGroup.current.call(xAxis);
+
+            d3.select(tooltip.current)
+                .append("div")
+                .attr("className", "absolute invisible");
 
             graph.current
                 .selectAll("rect")
                 .on("mouseover", handleMouseOver)
-                .on("mouseout", handleMouseOut);
-
-            // <rect class="highlight-rect" transform="translate(7.5, 1)" height="42" width="8" rx="10" ry="10" stroke="black" fill="#808080" fill-opacity="0.3" stroke-width="2" shape-rendering="auto" visibility="hidden"></rect>
-
-            // <rect class="highlight-rect" transform="translate(79.5, 1)" height="42" width="8" rx="10" ry="10" stroke="black" fill="#808080" fill-opacity="0.3" stroke-width="2" shape-rendering="auto" visibility="hidden"></rect>
+                .on("mouseout", handleMouseOut)
+                .on("mousemove", handleMouseMove);
         };
 
         update(data);
     });
 
-    return <div ref={canvas} className={className}></div>;
+    return (
+        <div ref={canvas} className={className}>
+            <div ref={tooltip} className="relative"></div>
+        </div>
+    );
 };
 
 export default BarChart;

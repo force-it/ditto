@@ -25,11 +25,10 @@ const Map = ({ className = "", handelLoaded = () => {} }) => {
             touchZoomRotate: false,
         });
 
-        map.current.addControl(new mapboxgl.FullscreenControl());
+        // map.current.addControl(new mapboxgl.FullscreenControl());
 
         map.current.on("load", () => {
             handelLoaded();
-            console.log("A load event occurred.");
         });
     });
 
