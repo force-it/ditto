@@ -143,7 +143,7 @@ export default function Dashboard(props) {
                                                 key={device.name}
                                                 className="flex-1 h-[54px] mr-2"
                                             >
-                                                <div className="flex py-1 px-2 rounded-md hover:bg-slate-100">
+                                                <div className="flex pb-1 pt-2 px-2 rounded-md hover:bg-orange-50">
                                                     <div
                                                         className="h-[6px] w-[6px] rounded-full text-center align-middle"
                                                         style={{
