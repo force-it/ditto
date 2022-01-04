@@ -13,6 +13,7 @@ import DonutChart from "@/Components/DonutChart";
 import counterUp from "counterup2";
 import { borderWidth } from "tailwindcss/defaultTheme";
 import { forEach } from "lodash";
+import * as d3 from "d3";
 
 const navigation = [
     // { name: '服務項目', href: 'service' },
@@ -30,6 +31,8 @@ function getRandom(x) {
 
 export default function Dashboard(props) {
     const [loaded, setLoaded] = useState(false);
+    const dountRef = useRef(null);
+
     const onLoaded = useCallback(() => {
         setLoaded(true);
     }, []);
@@ -134,14 +137,43 @@ export default function Dashboard(props) {
                                     <dt className="text-xs font-medium text-gray-500 truncate">
                                         過去 30 分鐘的使用者
                                     </dt>
-                                    <dd className="mt-1 text-3xl font-semibold text-gray-900 countup">
-                                        <DonutChart data={devices} />
+                                    <dd className="mt-1 text-3xl font-semibold text-gray-900">
+                                        <DonutChart
+                                            data={devices}
+                                            dountRef={dountRef}
+                                        />
                                     </dd>
                                     <div className="flex ">
                                         {devices.map((device, i) => (
                                             <div
                                                 key={device.name}
-                                                className="flex-1 h-[54px] mr-2"
+                                                className="flex-1 h-[54px] cursor-default"
+                                                onMouseEnter={() => {
+                                                    dountRef.current
+                                                        .select(
+                                                            "[className=" +
+                                                                "outside-arc-" +
+                                                                device.name +
+                                                                "]"
+                                                        )
+                                                        .attr(
+                                                            "fill-opacity",
+                                                            "0.4"
+                                                        );
+                                                }}
+                                                onMouseLeave={() => {
+                                                    dountRef.current
+                                                        .select(
+                                                            "[className=" +
+                                                                "outside-arc-" +
+                                                                device.name +
+                                                                "]"
+                                                        )
+                                                        .attr(
+                                                            "fill-opacity",
+                                                            "0"
+                                                        );
+                                                }}
                                             >
                                                 <div className="flex pb-1 pt-2 px-2 rounded-md hover:bg-orange-50">
                                                     <div
