@@ -205,7 +205,7 @@ export default function Dashboard(props) {
                             </div>
                         </div>
                         <Map
-                            className="absolute top-0 left-0 w-full min-h-[550px] h-1/2"
+                            className="w-full min-h-[550px] h-1/2"
                             handelLoaded={onLoaded}
                         />
                     </div>

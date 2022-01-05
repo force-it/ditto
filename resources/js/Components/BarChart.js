@@ -19,7 +19,7 @@ function getSiblings(e) {
         if (
             sibling.nodeType === 1 &&
             sibling !== e &&
-            sibling.getAttribute("className") === "highlight-rect"
+            sibling.getAttribute("class") === "highlight-rect"
         ) {
             siblings.push(sibling);
         }
@@ -45,22 +45,11 @@ const BarChart = ({ className = "", data }) => {
             let siblings = getSiblings(event.currentTarget);
             d3.selectAll(siblings).attr("fill-opacity", "0.5 ");
 
-            d3.select(tooltip.current.firstChild).attr(
-                "class",
-                "absolute px-5 py-5 w-32 bg-white rounded-md drop-shadow"
-            );
-        };
-        const handleMouseOut = (event, d) => {
-            let siblings = getSiblings(event.currentTarget);
-            d3.selectAll(siblings).attr("fill-opacity", "0");
-
-            d3.select(tooltip.current.firstChild).attr(
-                "class",
-                "absolute invisible"
-            );
-        };
-        const handleMouseMove = (event, d) => {
             d3.select(tooltip.current.firstChild)
+                .attr(
+                    "class",
+                    "absolute px-5 py-5 w-32 bg-white rounded-md drop-shadow"
+                )
                 .html(
                     `
                     <p class='text-gray-500 text-xs font-normal'>
@@ -75,7 +64,19 @@ const BarChart = ({ className = "", data }) => {
                         </span>
                     </div>
                 `
-                )
+                );
+        };
+        const handleMouseOut = (event, d) => {
+            let siblings = getSiblings(event.currentTarget);
+            d3.selectAll(siblings).attr("fill-opacity", "0");
+
+            d3.select(tooltip.current.firstChild).attr(
+                "class",
+                "absolute invisible"
+            );
+        };
+        const handleMouseMove = (event, d) => {
+            d3.select(tooltip.current.firstChild)
                 .style("left", d3.pointer(event)[0] + 10 + "px")
                 .style("top", d3.pointer(event)[1] - 15 + "px");
         };
@@ -151,7 +152,7 @@ const BarChart = ({ className = "", data }) => {
             rects.current
                 .enter()
                 .append("rect")
-                .attr("className", "highlight-rect")
+                .attr("class", "highlight-rect")
                 .attr("width", highlightX.bandwidth)
                 .attr("height", graphHeight)
                 .attr("fill", "#fff")
@@ -163,7 +164,7 @@ const BarChart = ({ className = "", data }) => {
 
             d3.select(tooltip.current)
                 .append("div")
-                .attr("className", "absolute invisible");
+                .attr("class", "absolute invisible");
 
             graph.current
                 .selectAll("rect")
@@ -177,7 +178,7 @@ const BarChart = ({ className = "", data }) => {
 
     return (
         <div ref={canvas} className={className}>
-            <div ref={tooltip} className="relative"></div>
+            <div ref={tooltip} className="absolute"></div>
         </div>
     );
 };

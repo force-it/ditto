@@ -1,3 +1,34 @@
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+.anim-circle {
+    color: transparent;
+    width: 21px;
+    height: 21px;
+    border-radius: 50%;
+    background: rgba(255, 165, 0, 0.3);
+    cursor: pointer;
+    animation: breathe 5s ease-in-out infinite;
+}
+
+.anim-circle:hover {
+    background: rgba(255, 165, 0, 0.6);
+}
+/* 42-60 18 */
+/* 32-46 14 */
+/* 21-30 9 */
+@keyframes breathe {
+    0% {
+        width: 21px;
+        height: 21px;
+    }
+    50% {
+        width: 30px;
+        height: 30px;
+    }
+    100% {
+        width: 21px;
+        height: 21px;
+    }
+}

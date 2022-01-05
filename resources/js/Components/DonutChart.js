@@ -54,9 +54,7 @@ const DonutChart = ({ className = "", data, dountRef: graph }) => {
     const tooltip = useRef(null);
 
     useEffect(() => {
-        console.log("1-1");
         if (svg.current) return;
-        console.log("1-2");
 
         svg.current = d3
             .select(canvas.current)
@@ -71,12 +69,12 @@ const DonutChart = ({ className = "", data, dountRef: graph }) => {
         const arcPath = d3
             .arc()
             .outerRadius(dims.radius)
-            .innerRadius(dims.radius / 1.4);
+            .innerRadius(dims.radius / 1.35);
 
         const outsideArcPath = d3
             .arc()
             .outerRadius(dims.radius + 10)
-            .innerRadius((dims.radius + 10) / 1.4);
+            .innerRadius((dims.radius + 10) / 1.35);
 
         const colour = d3.scaleOrdinal(["#b27300", "#FFA500", "#ffc04c"]);
 
