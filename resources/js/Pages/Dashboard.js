@@ -108,107 +108,47 @@ export default function Dashboard(props) {
         <Authenticated auth={props.auth} errors={props.errors}>
             <Head title="Dashboard" />
 
-            <div className="pb-12">
-                <div className="containe mx-auto">
-                    <div className="relative h-screen min-h-screen bg-red-100 border-b border-gray-200">
-                        <div className="absolute top-0 left-0 pt-[128px] px-8 z-10">
-                            <div className="px-6 pt-6 h-[402px] w-[306px] bg-white/90  rounded-lg border border-gray-300 backdrop-opacity-10">
-                                <div className="py-2">
-                                    <dt className="text-xs font-medium text-gray-500 truncate">
-                                        過去 30 分鐘的使用者
-                                    </dt>
-                                    <dd className="mt-1 text-3xl font-semibold text-gray-900 countup">
-                                        {loaded
-                                            ? new Intl.NumberFormat().format(
-                                                  userCount
-                                              )
-                                            : "-"}
-                                    </dd>
-                                </div>
-                                <div className="py-2">
-                                    <dt className="text-xs font-medium text-gray-500 truncate">
-                                        每分鐘的使用者
-                                    </dt>
-                                    <dd className="mt-1 text-3xl font-semibold text-gray-900">
-                                        <BarChart data={data} />
-                                    </dd>
-                                </div>
-                                <div className="py-2">
-                                    <dt className="text-xs font-medium text-gray-500 truncate">
-                                        過去 30 分鐘的使用者
-                                    </dt>
-                                    <dd className="mt-1 text-3xl font-semibold text-gray-900">
-                                        <DonutChart
-                                            data={devices}
-                                            dountRef={dountRef}
-                                        />
-                                    </dd>
-                                    <div className="flex ">
-                                        {devices.map((device, i) => (
-                                            <div
-                                                key={device.name}
-                                                className="flex-1 h-[54px] cursor-default"
-                                                onMouseEnter={() => {
-                                                    dountRef.current
-                                                        .select(
-                                                            "[className=" +
-                                                                "outside-arc-" +
-                                                                device.name +
-                                                                "]"
-                                                        )
-                                                        .attr(
-                                                            "fill-opacity",
-                                                            "0.4"
-                                                        );
-                                                }}
-                                                onMouseLeave={() => {
-                                                    dountRef.current
-                                                        .select(
-                                                            "[className=" +
-                                                                "outside-arc-" +
-                                                                device.name +
-                                                                "]"
-                                                        )
-                                                        .attr(
-                                                            "fill-opacity",
-                                                            "0"
-                                                        );
-                                                }}
-                                            >
-                                                <div className="flex pb-1 pt-2 px-2 rounded-md hover:bg-orange-50">
-                                                    <div
-                                                        className="h-[6px] w-[6px] rounded-full text-center align-middle"
-                                                        style={{
-                                                            backgroundColor: [
-                                                                "orange",
-                                                                "#ffc26c",
-                                                                "#ffe0b5",
-                                                            ][i],
-                                                            lineHight: "6px",
-                                                            margin: "5px 5px 0 0",
-                                                        }}
-                                                    ></div>
-
-                                                    <div className="flex flex-col">
-                                                        <span className="text-xs text-gray-500">
-                                                            {device.name.toUpperCase()}
-                                                        </span>
-                                                        <span className="text-lg">
-                                                            {device.percent}%
-                                                        </span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        ))}
-                                    </div>
-                                </div>
+            <div className="containe mx-auto pb-12">
+                <div className="relative h-screen min-h-screen bg-red-100 border-b border-gray-200">
+                    <div className="absolute top-0 left-0 pt-[128px] px-8 z-10">
+                        <div className="px-6 pt-6 h-[402px] w-[306px] bg-white/90  rounded-lg border border-gray-300 backdrop-opacity-10">
+                            <div className="py-2">
+                                <dt className="text-xs font-medium text-gray-500 truncate">
+                                    過去 30 分鐘的使用者
+                                </dt>
+                                <dd className="mt-1 text-3xl font-semibold text-gray-900 countup">
+                                    {loaded
+                                        ? new Intl.NumberFormat().format(
+                                              userCount
+                                          )
+                                        : "-"}
+                                </dd>
+                            </div>
+                            <div className="py-2">
+                                <dt className="text-xs font-medium text-gray-500 truncate">
+                                    每分鐘的使用者
+                                </dt>
+                                <dd className="mt-1 text-3xl font-semibold text-gray-900">
+                                    <BarChart data={data} />
+                                </dd>
+                            </div>
+                            <div className="py-2">
+                                <dt className="text-xs font-medium text-gray-500 truncate">
+                                    過去 30 分鐘的使用者
+                                </dt>
+                                <dd className="mt-1 text-3xl font-semibold text-gray-900">
+                                    <DonutChart
+                                        data={devices}
+                                        dountRef={dountRef}
+                                    />
+                                </dd>
                             </div>
                         </div>
-                        <Map
-                            className="w-full min-h-[550px] h-1/2"
-                            handelLoaded={onLoaded}
-                        />
                     </div>
+                    <Map
+                        className="w-full min-h-[550px] h-1/2"
+                        handelLoaded={onLoaded}
+                    />
                 </div>
             </div>
         </Authenticated>

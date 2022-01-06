@@ -43,10 +43,10 @@ const handleMouseMove = (event, d) => {
     console.log(3);
 };
 
-const DonutChart = ({ className = "", data, dountRef: graph }) => {
+const DonutChart = ({ className = "", data }) => {
     const canvas = useRef(null);
     const svg = useRef(null);
-    // const graph = dountRef;
+    const graph = useRef(null);
     const xAxisGroup = useRef(null);
     const yAxisGroup = useRef(null);
     const rects = useRef(null);
@@ -126,9 +126,63 @@ const DonutChart = ({ className = "", data, dountRef: graph }) => {
     }, []);
 
     return (
-        <div ref={canvas} className={className}>
-            <div ref={tooltip} className="relative"></div>
-        </div>
+        <>
+            <div ref={canvas} className={className}>
+                <div ref={tooltip} className="relative"></div>
+            </div>
+            <div className="flex">
+                {data.map((device, i) => (
+                    <div
+                        key={device.name}
+                        className="flex-1 h-[54px] cursor-default"
+                        onMouseEnter={() => {
+                            graph.current
+                                .select(
+                                    "[className=" +
+                                        "outside-arc-" +
+                                        device.name +
+                                        "]"
+                                )
+                                .attr("fill-opacity", "0.4");
+                        }}
+                        onMouseLeave={() => {
+                            graph.current
+                                .select(
+                                    "[className=" +
+                                        "outside-arc-" +
+                                        device.name +
+                                        "]"
+                                )
+                                .attr("fill-opacity", "0");
+                        }}
+                    >
+                        <div className="flex pb-1 pt-2 px-2 rounded-md hover:bg-orange-50">
+                            <div
+                                className="h-[6px] w-[6px] rounded-full text-center align-middle"
+                                style={{
+                                    backgroundColor: [
+                                        "orange",
+                                        "#ffc26c",
+                                        "#ffe0b5",
+                                    ][i],
+                                    lineHight: "6px",
+                                    margin: "5px 5px 0 0",
+                                }}
+                            ></div>
+
+                            <div className="flex flex-col">
+                                <span className="text-xs text-gray-500">
+                                    {device.name.toUpperCase()}
+                                </span>
+                                <span className="text-lg">
+                                    {device.percent}%
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                ))}
+            </div>
+        </>
     );
 };
 

@@ -85,20 +85,25 @@ const Map = ({ className = "", handelLoaded = () => {} }) => {
                     d3.select(tooltip.current.firstChild)
                         .attr(
                             "class",
-                            "fixed px-5 py-5 w-32 bg-white rounded-md drop-shadow z-10"
+                            "fixed px-5 py-5 bg-white rounded-md drop-shadow z-10"
                         )
                         .html(
                             `
                                 <p class='text-gray-500 text-xs font-normal'>
                                     過去 30 分鐘內
                                 </p>
-                                <div class="flex mt-3">
-                                    <span class='text-xs font-normal'>
-                                        Taipei
-                                    </span>
-                                    <span class='ml-auto text-xs font-black'>
-                                        1
-                                    </span>
+                                <div class="mt-2">
+                                    <p class='text-gray-500 text-xs font-medium'>
+                                        使用者
+                                    </p>
+                                    <div class="flex mt-2">
+                                        <span class='text-xs font-normal'>
+                                            排名第 1 的台北
+                                        </span>
+                                        <span class='ml-10 text-xs font-black'>
+                                            1
+                                        </span>
+                                    </div>
                                 </div>
                             `
                         );
