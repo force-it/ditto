@@ -1,56 +1,59 @@
 import React, { useState, useRef, useEffect } from "react";
 import mapboxgl from "mapbox-gl";
 import * as d3 from "d3";
+import * as Papa from "papaparse";
 
 mapboxgl.accessToken =
     "pk.eyJ1IjoiY2hhb3llbnBvIiwiYSI6ImNrd241bDFoODJpbncyb3FiOWl2dWh5M2oifQ.xCwkQjChmmpM8g_f6U64pw";
 
-const geojson = {
-    type: "FeatureCollection",
-    features: [
-        {
-            type: "Feature",
-            properties: {
-                message: "Foo",
-                iconSize: [60, 60],
-            },
-            geometry: {
-                type: "Point",
-                coordinates: [123.324462, 23.024695],
-            },
-        },
-        {
-            type: "Feature",
-            properties: {
-                message: "Bar",
-                iconSize: [50, 50],
-            },
-            geometry: {
-                type: "Point",
-                coordinates: [123.21582, 25.971891],
-            },
-        },
-        {
-            type: "Feature",
-            properties: {
-                message: "Baz",
-                iconSize: [40, 40],
-            },
-            geometry: {
-                type: "Point",
-                coordinates: [123.292236, 24.281518],
-            },
-        },
-    ],
-};
+function getRandom(x) {
+    return Math.floor(Math.random() * x);
+}
 
 const Map = ({ className = "", handelLoaded = () => {} }) => {
     const mapContainer = useRef(null);
     const map = useRef(null);
     const tooltip = useRef(null);
+    const [data, setData] = useState([]);
 
     useEffect(() => {
+        async function fetchWorldcities() {
+            let response = await fetch("./worldcities.csv");
+            response = await response.text();
+            setData(Papa.parse(response).data);
+        }
+        fetchWorldcities();
+    }, []);
+
+    useEffect(() => {
+        if (data.length <= 0) return;
         if (map.current) return;
+        const _feature = Array.from({ length: 30 }, (_, i) => {
+            let index;
+            do {
+                index = getRandom(data.length);
+            } while (data[index][5] !== "CN");
+
+            console.log(data[index][5]);
+
+            return {
+                type: "Feature",
+                properties: {
+                    name: data[index][1],
+                    iconSize: [60, 60],
+                },
+                geometry: {
+                    type: "Point",
+                    coordinates: [data[index][3], data[index][2]],
+                },
+            };
+        });
+
+        const geojson = {
+            type: "FeatureCollection",
+            features: _feature,
+        };
+
         map.current = new mapboxgl.Map({
             container: mapContainer.current,
             style: "mapbox://styles/mapbox/light-zh-v1",
@@ -82,6 +85,8 @@ const Map = ({ className = "", handelLoaded = () => {} }) => {
                     .getElement();
 
                 marker.addEventListener("mouseover", (event) => {
+                    event.currentTarget.classList.add("z-10");
+
                     d3.select(tooltip.current.firstChild)
                         .attr(
                             "class",
@@ -98,7 +103,7 @@ const Map = ({ className = "", handelLoaded = () => {} }) => {
                                     </p>
                                     <div class="flex mt-2">
                                         <span class='text-xs font-normal'>
-                                            排名第 1 的台北
+                                            排名第 n 的${feature.properties.name}
                                         </span>
                                         <span class='ml-10 text-xs font-black'>
                                             1
@@ -116,6 +121,8 @@ const Map = ({ className = "", handelLoaded = () => {} }) => {
                 });
 
                 marker.addEventListener("mouseout", (event) => {
+                    event.currentTarget.classList.remove("z-10");
+
                     d3.select(tooltip.current.firstChild).attr(
                         "class",
                         "fixed invisible"
@@ -127,7 +134,7 @@ const Map = ({ className = "", handelLoaded = () => {} }) => {
         d3.select(tooltip.current)
             .append("div")
             .attr("class", "fixed invisible");
-    });
+    }, [data]);
 
     return (
         <div ref={mapContainer} className={className}>
