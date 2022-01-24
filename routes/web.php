@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Foundation\Application;
-use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Foundation\Application;
+use App\Http\Controllers\WebhookReceiverController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,5 +28,13 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
+    Route::get('/webhooks', [WebhookReceiverController::class, 'index'])->name('webhooks');
+    Route::get('/webhooks/create', [WebhookReceiverController::class, 'create'])->name('webhooks.create');
+    Route::get('/webhooks/edit', [WebhookReceiverController::class, 'edit'])->name('webhooks.edit');
+    Route::put('/webhooks/{webhookReceiver}', [WebhookReceiverController::class, 'update'])->name('webhooks.update');
+    Route::delete('/webhooks/{webhookReceiver}', [WebhookReceiverController::class, 'destroy'])->name('webhooks.destroy');
+});
 
 require __DIR__.'/auth.php';

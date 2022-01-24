@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Api\TelegramController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +15,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['middleware' => ['auth:sanctum']], function () {
+    Route::get('/link', [TelegramController::class, 'link'])->name('api.link');
+    // Route::get('/reCustomBotLink', [TelegramBotController::class, 'reCustomLink']);
 });
+
+Route::post('/telegram', [TelegramController::class, 'callback']);
+Route::post('/webhook/{token}', [WebhookController::class, 'receive']);

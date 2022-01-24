@@ -28,6 +28,12 @@ export default function Authenticated({ auth, header, children }) {
                                 >
                                     即時總覽
                                 </NavLink>
+                                <NavLink
+                                    href={route("webhooks")}
+                                    active={route().current("webhooks")}
+                                >
+                                    Webhook 接收器
+                                </NavLink>
                             </div>
                         </div>
 

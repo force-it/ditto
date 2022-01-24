@@ -33,6 +33,7 @@ export default function Dashboard(props) {
     const [loaded, setLoaded] = useState(false);
     const dountRef = useRef(null);
 
+    // todo: to fix, need cleanup function. refactor to sub/pub pattern
     const onLoaded = useCallback(() => {
         setLoaded(true);
     }, []);
@@ -84,6 +85,7 @@ export default function Dashboard(props) {
                 }
             );
         }
+        return () => {};
     }, [loaded]);
 
     // useEffect(() => {
