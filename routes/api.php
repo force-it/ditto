@@ -17,7 +17,7 @@ use App\Http\Controllers\Api\TelegramController;
 
 Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/link', [TelegramController::class, 'link'])->name('api.link');
-    // Route::get('/reCustomBotLink', [TelegramBotController::class, 'reCustomLink']);
+    Route::get('/link/{webhookReceiver}', [TelegramController::class, 'relink'])->name('api.link.relink');
 });
 
 Route::post('/telegram', [TelegramController::class, 'callback']);

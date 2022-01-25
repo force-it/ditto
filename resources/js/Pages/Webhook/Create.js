@@ -1,24 +1,24 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import ValidationErrors from "@/Components/ValidationErrors";
 import Authenticated from "@/Layouts/Authenticated";
 import { Head, Link, useForm } from "@inertiajs/inertia-react";
 import Button from "@/Components/Button";
 import Input from "@/Components/Input";
 import Label from "@/Components/Label";
+import { Inertia } from "@inertiajs/inertia";
 
 export default function Create(props) {
-    const { data, setData, get, processing, errors, reset } = useForm({
-        bot_token: "",
-    });
+    const [botToken, setBotToken] = useState("");
+    const [errors, setErrors] = useState({});
 
     useEffect(() => {
         return () => {
-            reset("password", "password_confirmation");
+            // reset("password", "password_confirmation");
         };
     }, []);
 
     const onHandleChange = (event) => {
-        setData(event.target.name, event.target.value);
+        setBotToken(event.target.value);
     };
 
     const submit = (e) => {
@@ -33,32 +33,34 @@ export default function Create(props) {
         axios
             .get(route("api.link"), {
                 params: {
-                    bot_token: data.bot_token,
+                    bot_token: botToken,
                 },
             })
             .then(link)
             .catch((err) => {
                 window.tgWindow.close();
-                // this.errors = _.mapValues(err.response.data.errors, (o) =>
-                //     o.join()
-                // );
+                setErrors(
+                    _.mapValues(err.response.data.errors, (o) => o.join())
+                );
             });
     };
 
     const link = (res) => {
-        //   this.errors = {};
+        setErrors({});
         window.tgWindow.location.href = res.data.url;
 
-        // Echo.private(`webhook.receiver.${res.data.token}`).listen(
-        //     "TelegramConnected",
-        //     (e) => {
-        //         window.tgWindow.close();
+        Echo.private(`webhook.receiver.${res.data.token}`).listen(
+            "TelegramConnected",
+            (e) => {
+                window.tgWindow.close();
 
-        //         this.$inertia.get(route("webhooks.edit"), {
-        //             id: e.id,
-        //         });
-        //     }
-        // );
+                Inertia.get(
+                    route("webhooks.show", {
+                        webhookReceiver: e.id,
+                    })
+                );
+            }
+        );
     };
 
     return (
@@ -116,7 +118,7 @@ export default function Create(props) {
                                     <Input
                                         type="text"
                                         name="bot_token"
-                                        value={data.bot_token}
+                                        value={botToken}
                                         className="mt-1 block w-full"
                                         autoComplete="bot_token"
                                         isFocused={true}
@@ -126,12 +128,7 @@ export default function Create(props) {
                                 </div>
 
                                 <div className="flex items-center justify-end mt-4">
-                                    <Button
-                                        className="ml-4"
-                                        processing={processing}
-                                    >
-                                        連結到群組
-                                    </Button>
+                                    <Button className="ml-4">連結到群組</Button>
                                 </div>
                             </form>
                         </div>

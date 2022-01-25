@@ -15,6 +15,7 @@ use App\Notifications\TelegramBotConnected;
 use NotificationChannels\Telegram\Telegram;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Validation\ValidationException;
+use App\Events\TelegramConnected;
 
 class TelegramController extends Controller
 {
@@ -22,7 +23,7 @@ class TelegramController extends Controller
     {
         Validator::make($request->all(), [
             'bot_token' => ['required', 'string'],
-        ])->validateWithBag('botLink');
+        ])->validateWithBag('link');
 
         try {
             $r = new ReflectionMethod(Telegram::class, 'sendRequest');
@@ -90,12 +91,28 @@ class TelegramController extends Controller
         Notification::route('telegram', data_get($request, 'message.chat.id'))
             ->notify(new TelegramBotConnected($webhookReceiver->bot->token));
 
-        // TelegramConnected::dispatch($webhookReceiver->id, $token);
+        TelegramConnected::dispatch($webhookReceiver->id, $token);
 
         return response()->json([
             'ok' => true,
             'result' => true,
             'description' => '成功建立 Webhook 接收器。'
+        ]);
+    }
+
+    public function relink(Request $request, $webhookReceiverId)
+    {
+        $webhookReceiver = WebhookReceiver::with('bot')->find($webhookReceiverId);
+
+        Cache::put(
+            $webhookReceiver->token,
+            auth()->user()->id . ' ' . $webhookReceiver->bot->id,
+            3600
+        );
+
+        return response()->json([
+            'url' => 'https://t.me/' . $webhookReceiver->bot->username . '?startgroup=' . $webhookReceiver->token,
+            'token' => $webhookReceiver->token,
         ]);
     }
 }

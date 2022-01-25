@@ -22,4 +22,15 @@ class WebhookReceiverController extends Controller
     {
         return Inertia::render('Webhook/Create');
     }
+
+    public function show(Request $request, $webhookReceiverId)
+    {
+        if (!$webhookReceiver = WebhookReceiver::find($webhookReceiverId)) {
+            return redirect()->intended(config('app.url'));
+        }
+
+        return Inertia::render('Webhook/Show', [
+            'webhookReceiver' => new ResourcesWebhookReceiver($webhookReceiver),
+        ]);
+    }
 }
