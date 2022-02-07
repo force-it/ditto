@@ -2,12 +2,14 @@
 
 namespace App\Notifications;
 
+use Illuminate\Support\Str;
 use Illuminate\Bus\Queueable;
 use App\Models\WebhookReceiver;
 use Illuminate\Notifications\Notification;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use NotificationChannels\Telegram\TelegramChannel;
+use NotificationChannels\Telegram\TelegramMessage;
 
 class WebhookReceived extends Notification
 {
