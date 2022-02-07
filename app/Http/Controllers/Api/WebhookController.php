@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use Illuminate\Http\Request;
 use App\Models\WebhookReceiver;
 use App\Http\Controllers\Controller;
+use App\Notifications\WebhookReceived;
 use Symfony\Component\Process\Process;
 use Illuminate\Support\Facades\Notification;
 
@@ -43,7 +44,7 @@ class WebhookController extends Controller
 
         try {
             Notification::route('telegram', data_get($webhookReceiver, 'chat.id'))
-                ->notify(new WebhookForward($result, $webhookReceiver));
+                ->notify(new WebhookReceived($result, $webhookReceiver));
             if ($webhookReceiver->malfunction) {
                 $webhookReceiver->malfunction = null;
                 $webhookReceiver->save();
