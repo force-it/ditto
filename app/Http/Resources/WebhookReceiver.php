@@ -19,7 +19,7 @@ class WebhookReceiver extends JsonResource
             'user' => $this->user,
             'chat' => $this->chat,
             'token' => $this->token,
-            'uri' => config('receiver.host') . '/api/webhookReceiver/' . $this->token,
+            'uri' => config('receiver.host') . '/api/webhook/' . $this->token,
             'malfunction' => $this->malfunction,
             'bot' => $this->bot,
             'dql' => $this->dql,
