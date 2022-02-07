@@ -2,6 +2,6 @@
 
 return [
 
-    'host' => env('WEBHOOK_RECEIVER_HOST'),
+    'host' => env('WEBHOOK_RECEIVER_HOST', env('APP_URL')),
 
 ];
