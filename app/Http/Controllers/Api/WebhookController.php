@@ -52,6 +52,11 @@ class WebhookController extends Controller
         } catch (\Throwable $th) {
             $webhookReceiver->malfunction = $th->getMessage();
             $webhookReceiver->save();
+            \Log::info([
+                'result' => $result,
+            ]);
+            Notification::route('telegram', data_get($webhookReceiver, 'chat.id'))
+                ->notify(new WebhookReceived('有錯誤，測試中', $webhookReceiver));
         }
 
         return response()->json([
