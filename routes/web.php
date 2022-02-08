@@ -4,6 +4,7 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
 use App\Http\Controllers\WebhookReceiverController;
+use App\Http\Controllers\Admin\OrganizationController;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,6 +36,8 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('/webhooks/{webhookReceiver}', [WebhookReceiverController::class, 'show'])->name('webhooks.show');
     Route::put('/webhooks/{webhookReceiver}', [WebhookReceiverController::class, 'update'])->name('webhooks.update');
     Route::delete('/webhooks/{webhookReceiver}', [WebhookReceiverController::class, 'destroy'])->name('webhooks.destroy');
+
+    Route::get('/admin/organizations', [OrganizationController::class, 'index'])->name('organizations');
 });
 
 require __DIR__.'/auth.php';
