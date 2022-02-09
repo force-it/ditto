@@ -123,7 +123,7 @@ export default function Dashboard(props) {
                                         ? new Intl.NumberFormat().format(
                                               userCount
                                           )
-                                        : "-"}
+                                        : "0"}
                                 </dd>
                             </div>
                             <div className="py-2">

@@ -17,14 +17,14 @@ import {
     UsersIcon,
     XIcon,
 } from "@heroicons/react/outline";
+import { useResizeDetector } from "react-resize-detector";
 
 const navigation = [
-    { name: "Dashboard", href: "#", icon: HomeIcon, current: true },
-    { name: "Team", href: "#", icon: UsersIcon, current: false },
-    { name: "Projects", href: "#", icon: FolderIcon, current: false },
-    { name: "Calendar", href: "#", icon: CalendarIcon, current: false },
-    { name: "Documents", href: "#", icon: InboxIcon, current: false },
-    { name: "Reports", href: "#", icon: ChartBarIcon, current: false },
+    { name: "首頁", href: "#", icon: HomeIcon, current: true },
+    { name: "組織", href: "#", icon: UsersIcon, current: false },
+    { name: "專案", href: "#", icon: FolderIcon, current: false },
+    { name: "日曆（開發中）", href: "#", icon: CalendarIcon, current: false },
+    { name: "報表（開發中）", href: "#", icon: ChartBarIcon, current: false },
 ];
 
 const userNavigation = [
@@ -33,10 +33,19 @@ const userNavigation = [
 ];
 
 export default function Admin({ auth, header, children }) {
+    const { width, height, ref } = useResizeDetector();
+
     return (
-        <>
+        <div ref={ref} className="bg-gray-100 flex flex-col h-full">
             <Navbar auth={auth} userNavigation={userNavigation} />
-            <Sidebar navigation={navigation} />
-        </>
+
+            <div className="flex overflow-hidden">
+                <Sidebar navigation={navigation} />
+
+                <main className="relative w-full overflow-y-auto">
+                    {children}
+                </main>
+            </div>
+        </div>
     );
 }

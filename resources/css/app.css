@@ -2,6 +2,20 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
+:root {
+    --header-height: 70px;
+    --tab-bar-height: 49px;
+}
+
+@layer base {
+    html,
+    body,
+    #app {
+        @apply h-full;
+        @apply overflow-hidden;
+    }
+}
+
 .anim-circle {
     color: transparent;
     width: 21px;

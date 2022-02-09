@@ -7,7 +7,7 @@ import Dropdown from "@/Components/Dropdown";
 
 export default function Navbar({ auth, userNavigation }) {
     return (
-        <div className="mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="bg-white px-4 shadow sm:px-6 lg:px-8">
             <div className="relative flex justify-between xl:grid xl:grid-cols-12 lg:gap-8">
                 <div className="flex lg:static xl:col-span-2">
                     <div className="flex-shrink-0 flex items-center">
