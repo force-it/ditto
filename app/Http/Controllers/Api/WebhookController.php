@@ -53,7 +53,7 @@ class WebhookController extends Controller
         } catch (\Throwable $th) {
             $webhookReceiver->malfunction = $th->getMessage();
             $webhookReceiver->save();
-            Log::info($request->all(), '輸入');
+            Log::info('輸入', $request->all());
         }
 
         return response()->json([

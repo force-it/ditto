@@ -36,7 +36,7 @@ export default function Admin({ auth, header, children }) {
     const { width, height, ref } = useResizeDetector();
 
     return (
-        <div ref={ref} className="bg-white flex flex-col h-full">
+        <div ref={ref} className="bg-transparent flex flex-col h-full">
             <Navbar auth={auth} userNavigation={userNavigation} />
 
             <div className="flex overflow-hidden h-full">
