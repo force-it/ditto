@@ -7,34 +7,32 @@ import Dropdown from "@/Components/Dropdown";
 
 export default function Navbar({ auth, userNavigation }) {
     return (
-        <div className="bg-white px-4 shadow sm:px-6 lg:px-8">
+        <div className="bg-teal-500 px-4 shadow sm:px-6 lg:px-8">
             <div className="relative flex justify-between xl:grid xl:grid-cols-12 lg:gap-8">
                 <div className="flex lg:static xl:col-span-2">
                     <div className="flex-shrink-0 flex items-center">
-                        <ApplicationLogo className="block h-9 w-auto text-gray-500" />
-                        <span className="ml-3">Zacian Admin</span>
+                        <span className="ml-3 text-2xl text-white/90 font-bold">
+                            Zacian Admin
+                        </span>
                     </div>
                 </div>
                 <div className="min-w-0 flex-1 md:px-8 lg:px-0 xl:col-span-6">
-                    <div className="flex items-center px-6 py-4 md:max-w-3xl md:mx-auto lg:max-w-none lg:mx-0 xl:px-0">
+                    <div className="flex items-center px-6 py-3 md:max-w-2xl md:mx-auto lg:mx-0 xl:px-0">
                         <div className="w-full">
-                            <label htmlFor="search" className="sr-only">
-                                Search
-                            </label>
                             <div className="relative">
-                                <div className="pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
-                                    <SearchIcon
-                                        className="h-5 w-5 text-gray-400"
-                                        aria-hidden="true"
-                                    />
-                                </div>
                                 <input
                                     id="search"
                                     name="search"
-                                    className="block w-full bg-white border border-gray-300 rounded-md py-2 pl-10 pr-3 text-sm placeholder-gray-500 focus:outline-none focus:text-gray-900 focus:placeholder-gray-400 focus:ring-1 focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                                    className="peer block w-full bg-teal-600 border-none rounded-md py-2 pl-10 pr-3 text-white placeholder-white focus:placeholder-gray-500 focus:ring-white focus:bg-white focus:text-black"
                                     placeholder="Search"
                                     type="search"
                                 />
+                                <div className="text-white peer-focus:text-gray-400 pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
+                                    <SearchIcon
+                                        className="h-5 w-5 "
+                                        aria-hidden="true"
+                                    />
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -42,18 +40,21 @@ export default function Navbar({ auth, userNavigation }) {
                 <div className="flex items-center justify-end xl:col-span-4">
                     <a
                         href="#"
-                        className="ml-5 flex-shrink-0 bg-white rounded-full p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        className="ml-5 flex-shrink-0 bg-teal-500 rounded-full p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
                     >
                         <span className="sr-only">View notifications</span>
-                        <BellIcon className="h-6 w-6" aria-hidden="true" />
+                        <BellIcon
+                            className="h-6 w-6 text-white"
+                            aria-hidden="true"
+                        />
                     </a>
 
-                    <div className="flex-shrink-0 relative ml-3">
+                    <div className="flex-shrink-0 relative ml-4">
                         <Dropdown>
                             <Dropdown.Trigger>
                                 <button
                                     type="button"
-                                    className="bg-white rounded-full flex focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                                    className="bg-white rounded-full flex focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
                                 >
                                     <img
                                         className="h-8 w-8 rounded-full"

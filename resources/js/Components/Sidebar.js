@@ -16,7 +16,7 @@ export default function Sidebar({ navigation }) {
                                 href={item.href}
                                 className={classNames(
                                     item.current
-                                        ? "bg-blue-50 text-blue-600"
+                                        ? "bg-teal-50 text-teal-600"
                                         : "text-gray-600 hover:bg-gray-50 hover:text-gray-900",
                                     "group rounded-md py-2 px-2 flex items-center text-sm font-medium"
                                 )}
@@ -24,7 +24,7 @@ export default function Sidebar({ navigation }) {
                                 <item.icon
                                     className={classNames(
                                         item.current
-                                            ? "text-blue-500"
+                                            ? "text-teal-500"
                                             : "text-gray-400 group-hover:text-gray-500",
                                         "mr-3 flex-shrink-0 h-6 w-6"
                                     )}

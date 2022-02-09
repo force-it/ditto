@@ -21,14 +21,14 @@ import { useResizeDetector } from "react-resize-detector";
 
 const navigation = [
     { name: "首頁", href: "#", icon: HomeIcon, current: true },
-    { name: "組織", href: "#", icon: UsersIcon, current: false },
-    { name: "專案", href: "#", icon: FolderIcon, current: false },
+    { name: "組織（開發中）", href: "#", icon: UsersIcon, current: false },
+    { name: "專案（開發中）", href: "#", icon: FolderIcon, current: false },
     { name: "日曆（開發中）", href: "#", icon: CalendarIcon, current: false },
     { name: "報表（開發中）", href: "#", icon: ChartBarIcon, current: false },
 ];
 
 const userNavigation = [
-    { name: "離開管理員", href: route("dashboard") },
+    { name: "退出「管理控制台」", href: route("dashboard") },
     { name: "登出", href: route("logout"), method: "post", as: "button" },
 ];
 
@@ -36,10 +36,10 @@ export default function Admin({ auth, header, children }) {
     const { width, height, ref } = useResizeDetector();
 
     return (
-        <div ref={ref} className="bg-gray-100 flex flex-col h-full">
+        <div ref={ref} className="bg-white flex flex-col h-full">
             <Navbar auth={auth} userNavigation={userNavigation} />
 
-            <div className="flex overflow-hidden">
+            <div className="flex overflow-hidden h-full">
                 <Sidebar navigation={navigation} />
 
                 <main className="relative w-full overflow-y-auto">

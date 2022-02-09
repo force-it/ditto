@@ -66,10 +66,10 @@ export default function Authenticated({ auth, header, children }) {
 
                                     <Dropdown.Content>
                                         <Dropdown.Link
-                                            href={route("organizations")}
+                                            href={route("admin.home")}
                                             method="get"
                                         >
-                                            Admin
+                                            進入「管理控制台」
                                         </Dropdown.Link>
                                         <Dropdown.Link
                                             href={route("logout")}
