@@ -4,7 +4,7 @@ import Dropdown from "@/Components/Dropdown";
 import NavLink from "@/Components/NavLink";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import { Link } from "@inertiajs/inertia-react";
-import Navbar from "@/Components/Navbar";
+import AdminNavbar from "@/Components/AdminNavbar";
 import Sidebar from "@/Components/Sidebar";
 import {
     BellIcon,
@@ -37,7 +37,7 @@ export default function Admin({ auth, header, children }) {
 
     return (
         <div ref={ref} className="bg-transparent flex flex-col h-full">
-            <Navbar auth={auth} userNavigation={userNavigation} />
+            <AdminNavbar auth={auth} userNavigation={userNavigation} />
 
             <div className="flex overflow-hidden h-full">
                 <Sidebar navigation={navigation} />

@@ -1,84 +1,171 @@
-import React from "react";
+import React, { useState } from "react";
 import { Menu, Popover, Transition } from "@headlessui/react";
 import { SearchIcon } from "@heroicons/react/solid";
 import { BellIcon, MenuIcon, XIcon } from "@heroicons/react/outline";
 import ApplicationLogo from "@/Components/ApplicationLogo";
 import Dropdown from "@/Components/Dropdown";
+import NavLink from "@/Components/NavLink";
+import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
+import { Link } from "@inertiajs/inertia-react";
 
-export default function Navbar({ auth, userNavigation }) {
+export default function Navbar({ auth }) {
+    const [showingNavigationDropdown, setShowingNavigationDropdown] =
+        useState(false);
+
     return (
-        <div className="bg-teal-500 px-4 shadow sm:px-6 lg:px-8">
-            <div className="relative flex justify-between xl:grid xl:grid-cols-12 lg:gap-8">
-                <div className="flex lg:static xl:col-span-2">
-                    <div className="flex-shrink-0 flex items-center">
-                        <span className="ml-3 text-2xl text-white/90 font-bold">
-                            Zacian Admin
-                        </span>
-                    </div>
-                </div>
-                <div className="min-w-0 flex-1 md:px-8 lg:px-0 xl:col-span-6">
-                    <div className="flex items-center px-6 py-3 md:max-w-2xl md:mx-auto lg:mx-0 xl:px-0">
-                        <div className="w-full">
-                            <div className="relative">
-                                <input
-                                    id="search"
-                                    name="search"
-                                    className="peer block w-full bg-teal-600 border-none rounded-md py-2 pl-10 pr-3 text-white placeholder-white focus:placeholder-gray-500 focus:ring-white focus:bg-white focus:text-black"
-                                    placeholder="Search"
-                                    type="search"
-                                />
-                                <div className="text-white peer-focus:text-gray-400 pointer-events-none absolute inset-y-0 left-0 pl-3 flex items-center">
-                                    <SearchIcon
-                                        className="h-5 w-5 "
-                                        aria-hidden="true"
-                                    />
-                                </div>
-                            </div>
+        <nav className="bg-white border-b border-gray-100">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="flex justify-between h-16">
+                    <div className="flex">
+                        <div className="shrink-0 flex items-center">
+                            <Link href="/dashboard">
+                                <span className="ml-3 text-2xl font-bold">
+                                    Zacian
+                                </span>
+                            </Link>
+                        </div>
+
+                        <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
+                            <NavLink
+                                href={route("dashboard")}
+                                active={route().current("dashboard")}
+                            >
+                                即時總覽
+                            </NavLink>
+                            <NavLink
+                                href={route("webhooks")}
+                                active={route().current("webhooks")}
+                            >
+                                Webhook 接收器
+                            </NavLink>
                         </div>
                     </div>
-                </div>
-                <div className="flex items-center justify-end xl:col-span-4">
-                    <a
-                        href="#"
-                        className="ml-5 flex-shrink-0 bg-teal-500 rounded-full p-1 text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
-                    >
-                        <span className="sr-only">View notifications</span>
-                        <BellIcon
-                            className="h-6 w-6 text-white"
-                            aria-hidden="true"
-                        />
-                    </a>
 
-                    <div className="flex-shrink-0 relative ml-4">
-                        <Dropdown>
-                            <Dropdown.Trigger>
-                                <button
-                                    type="button"
-                                    className="bg-white rounded-full flex focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-teal-500"
-                                >
-                                    <img
-                                        className="h-8 w-8 rounded-full"
-                                        src={`https://ui-avatars.com/api/?name=${auth.user.name}&color=7F9CF5&background=EBF4FF`}
-                                    />
-                                </button>
-                            </Dropdown.Trigger>
+                    <div className="hidden sm:flex sm:items-center sm:ml-6">
+                        <div className="ml-3 relative">
+                            <Dropdown>
+                                <Dropdown.Trigger>
+                                    <span className="inline-flex rounded-md">
+                                        <button
+                                            type="button"
+                                            className="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
+                                        >
+                                            {auth.user.name}
 
-                            <Dropdown.Content>
-                                {userNavigation.map((item) => (
+                                            <svg
+                                                className="ml-2 -mr-0.5 h-4 w-4"
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                viewBox="0 0 20 20"
+                                                fill="currentColor"
+                                            >
+                                                <path
+                                                    fillRule="evenodd"
+                                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                                    clipRule="evenodd"
+                                                />
+                                            </svg>
+                                        </button>
+                                    </span>
+                                </Dropdown.Trigger>
+
+                                <Dropdown.Content>
                                     <Dropdown.Link
-                                        key={item.name}
-                                        href={item.href}
-                                        method={item.method}
-                                        as={item.as}
+                                        href={route("admin.home")}
+                                        method="get"
                                     >
-                                        {item.name}
+                                        進入「管理控制台」
                                     </Dropdown.Link>
-                                ))}
-                            </Dropdown.Content>
-                        </Dropdown>
+                                    <Dropdown.Link
+                                        href={route("logout")}
+                                        method="post"
+                                        as="button"
+                                    >
+                                        登出
+                                    </Dropdown.Link>
+                                </Dropdown.Content>
+                            </Dropdown>
+                        </div>
+                    </div>
+
+                    <div className="-mr-2 flex items-center sm:hidden">
+                        <button
+                            onClick={() =>
+                                setShowingNavigationDropdown(
+                                    (previousState) => !previousState
+                                )
+                            }
+                            className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-500 transition duration-150 ease-in-out"
+                        >
+                            <svg
+                                className="h-6 w-6"
+                                stroke="currentColor"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                            >
+                                <path
+                                    className={
+                                        !showingNavigationDropdown
+                                            ? "inline-flex"
+                                            : "hidden"
+                                    }
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M4 6h16M4 12h16M4 18h16"
+                                />
+                                <path
+                                    className={
+                                        showingNavigationDropdown
+                                            ? "inline-flex"
+                                            : "hidden"
+                                    }
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    strokeWidth="2"
+                                    d="M6 18L18 6M6 6l12 12"
+                                />
+                            </svg>
+                        </button>
                     </div>
                 </div>
             </div>
-        </div>
+
+            <div
+                className={
+                    (showingNavigationDropdown ? "block" : "hidden") +
+                    " sm:hidden"
+                }
+            >
+                <div className="pt-2 pb-3 space-y-1">
+                    <ResponsiveNavLink
+                        href={route("dashboard")}
+                        active={route().current("dashboard")}
+                    >
+                        Dashboard
+                    </ResponsiveNavLink>
+                </div>
+
+                <div className="pt-4 pb-1 border-t border-gray-200">
+                    <div className="px-4">
+                        <div className="font-medium text-base text-gray-800">
+                            {auth.user.name}
+                        </div>
+                        <div className="font-medium text-sm text-gray-500">
+                            {auth.user.email}
+                        </div>
+                    </div>
+
+                    <div className="mt-3 space-y-1">
+                        <ResponsiveNavLink
+                            method="post"
+                            href={route("logout")}
+                            as="button"
+                        >
+                            Log Out
+                        </ResponsiveNavLink>
+                    </div>
+                </div>
+            </div>
+        </nav>
     );
 }

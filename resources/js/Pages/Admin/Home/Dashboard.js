@@ -99,12 +99,15 @@ export default function Index(props) {
                                         </div>
                                         <div className="py-6 px-4 min-h-[300px]">
                                             {item.text && (
-                                                <div className="py-6 px-2 font-semibold text-sm">
+                                                <div className="py-4 px-2 font-semibold text-sm">
                                                     <p>{item.text}</p>
                                                 </div>
                                             )}
                                             {item.features?.map((feature) => (
-                                                <button className="w-full group rounded-md py-2 px-2 flex items-center text-sm font-medium text-teal-600 hover:bg-teal-50">
+                                                <button
+                                                    key={feature.name}
+                                                    className="w-full group rounded-md py-2 px-2 flex items-center text-sm font-medium text-teal-600 hover:bg-teal-50"
+                                                >
                                                     {feature.name}
                                                 </button>
                                             ))}
