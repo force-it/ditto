@@ -17,7 +17,6 @@ import {
     UsersIcon,
     XIcon,
 } from "@heroicons/react/outline";
-import { useResizeDetector } from "react-resize-detector";
 
 const navigation = [
     { name: "首頁", href: "#", icon: HomeIcon, current: true },
@@ -33,10 +32,8 @@ const userNavigation = [
 ];
 
 export default function Admin({ auth, header, children }) {
-    const { width, height, ref } = useResizeDetector();
-
     return (
-        <div ref={ref} className="bg-transparent flex flex-col h-full">
+        <div className="bg-white flex flex-col h-full">
             <AdminNavbar auth={auth} userNavigation={userNavigation} />
 
             <div className="flex overflow-hidden h-full">

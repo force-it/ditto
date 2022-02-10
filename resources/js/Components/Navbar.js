@@ -8,12 +8,12 @@ import NavLink from "@/Components/NavLink";
 import ResponsiveNavLink from "@/Components/ResponsiveNavLink";
 import { Link } from "@inertiajs/inertia-react";
 
-export default function Navbar({ auth }) {
+export default function Navbar({ auth, navigation }) {
     const [showingNavigationDropdown, setShowingNavigationDropdown] =
         useState(false);
 
     return (
-        <nav className="bg-white border-b border-gray-100">
+        <nav className="bg-white shadow">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between h-16">
                     <div className="flex">
@@ -26,18 +26,11 @@ export default function Navbar({ auth }) {
                         </div>
 
                         <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
-                            <NavLink
-                                href={route("dashboard")}
-                                active={route().current("dashboard")}
-                            >
-                                即時總覽
-                            </NavLink>
-                            <NavLink
-                                href={route("webhooks")}
-                                active={route().current("webhooks")}
-                            >
-                                Webhook 接收器
-                            </NavLink>
+                            {navigation.map((item) => (
+                                <NavLink href={item.href} active={item.current}>
+                                    {item.name}
+                                </NavLink>
+                            ))}
                         </div>
                     </div>
 
