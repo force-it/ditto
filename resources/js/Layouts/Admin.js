@@ -21,7 +21,7 @@ import { useResizeDetector } from "react-resize-detector";
 
 const navigation = [
     { name: "首頁", href: "#", icon: HomeIcon, current: true },
-    { name: "組織（開發中）", href: "#", icon: UsersIcon, current: false },
+    { name: "使用者（開發中）", href: "#", icon: UsersIcon, current: false },
     { name: "專案（開發中）", href: "#", icon: FolderIcon, current: false },
     { name: "日曆（開發中）", href: "#", icon: CalendarIcon, current: false },
     { name: "報表（開發中）", href: "#", icon: ChartBarIcon, current: false },
