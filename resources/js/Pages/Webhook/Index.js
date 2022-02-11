@@ -1,8 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import Authenticated from "@/Layouts/Authenticated";
 import { Head, Link, InertiaLink, usePage } from "@inertiajs/inertia-react";
-
 import Button, { ModalButton } from "@/Components/Button";
+import CreateModal from "./CreateModal";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
@@ -10,6 +10,15 @@ function classNames(...classes) {
 
 export default function Index(props) {
     const { webhookReceivers } = usePage().props;
+    let [open, setOpen] = useState(false);
+
+    function closeModal() {
+        setOpen(false);
+    }
+
+    function openModal() {
+        setOpen(true);
+    }
 
     const webhookReceiverItems = webhookReceivers.data.map(
         (webhookReceiver) => (
@@ -68,12 +77,17 @@ export default function Index(props) {
             errors={props.errors}
             header={<span>Webhook 接收器</span>}
         >
+            <CreateModal
+                open={open}
+                handleCloseModal={closeModal}
+            ></CreateModal>
+
             <Head title="Webhook 接收器" />
 
             <div className="max-w-7xl mx-auto pt-5 sm:px-6 lg:px-8">
-                <InertiaLink href={route("webhooks.create")}>
-                    <ModalButton>建立 Webhook 接收器</ModalButton>
-                </InertiaLink>
+                <ModalButton onClick={openModal}>
+                    建立 Webhook 接收器
+                </ModalButton>
 
                 <div className="py-5 sm:py-6">
                     <div className="bg-white overflow-hidden sm:rounded-lg">

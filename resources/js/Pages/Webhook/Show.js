@@ -57,11 +57,7 @@ export default function Show(props) {
         <Authenticated
             auth={props.auth}
             errors={props.errors}
-            header={
-                <h2 className="font-semibold text-xl text-gray-800 leading-tight">
-                    設定 Webhook 接收器
-                </h2>
-            }
+            header="webhookReceiver.data.uri"
         >
             <Head title="Webhook 接收器" />
 

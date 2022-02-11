@@ -22,9 +22,10 @@ export default function Button({
 }
 
 export function ModalButton({
-    type = "submit",
+    type = "button",
     className = "",
     processing,
+    onClick,
     children,
 }) {
     return (
@@ -36,6 +37,7 @@ export function ModalButton({
                 } ` + className
             }
             disabled={processing}
+            onClick={onClick}
         >
             {children}
         </button>
