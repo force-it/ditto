@@ -57,7 +57,14 @@ export default function Index(props) {
                                 )}
                             >
                                 <span className="relative flex mr-1.5 w-2.5 h-2.5">
-                                    <span className="relative inline-flex w-2.5 h-2.5 rounded-full bg-green-400"></span>
+                                    <span
+                                        className={classNames(
+                                            !webhookReceiver.malfunction
+                                                ? "bg-green-400"
+                                                : "bg-red-400",
+                                            "relative inline-flex w-2.5 h-2.5 rounded-full"
+                                        )}
+                                    ></span>
                                 </span>
                                 <span>
                                     {!webhookReceiver.malfunction
