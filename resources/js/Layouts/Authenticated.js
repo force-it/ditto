@@ -22,18 +22,25 @@ export default function Authenticated({ auth, header, children }) {
     ]);
 
     return (
-        <div className="bg-white flex flex-col h-full">
+        <div className="bg-gray-100 flex flex-col h-full divide-y">
             <Navbar auth={auth} navigation={navigation} />
 
             {header && (
-                <header className="bg-white shadow">
-                    <div className="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                <header>
+                    <div className="max-w-7xl mx-auto py-2 px-4 sm:px-6 lg:px-8 text-sm">
                         {header}
                     </div>
                 </header>
             )}
 
-            <main>{children}</main>
+            <main
+                className="relative h-full w-full overflow-y-auto"
+                onScroll={() => {
+                    console.log("捲動嚕");
+                }}
+            >
+                {children}
+            </main>
         </div>
     );
 }

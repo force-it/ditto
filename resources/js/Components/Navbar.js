@@ -13,7 +13,7 @@ export default function Navbar({ auth, navigation }) {
         useState(false);
 
     return (
-        <nav className="bg-white shadow">
+        <nav className="bg-white z-10">
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div className="flex justify-between h-16">
                     <div className="flex">
@@ -27,7 +27,11 @@ export default function Navbar({ auth, navigation }) {
 
                         <div className="hidden space-x-8 sm:-my-px sm:ml-10 sm:flex">
                             {navigation.map((item) => (
-                                <NavLink href={item.href} active={item.current}>
+                                <NavLink
+                                    key={item.name}
+                                    href={item.href}
+                                    active={item.current}
+                                >
                                     {item.name}
                                 </NavLink>
                             ))}
