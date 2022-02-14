@@ -48,7 +48,7 @@ export default function CopyTextToClipboardWrapper({ className = "", text }) {
             >
                 <div className="flex items-center p-2 rounded-md bg-gray-900 text-white">
                     <CheckCircleIcon
-                        className="h-5 w-5 text-green-400"
+                        className="h-5 w-5 text-emerald-400"
                         aria-hidden="true"
                     />
                     <span className="ml-3 text-sm">已複製到剪貼簿！</span>

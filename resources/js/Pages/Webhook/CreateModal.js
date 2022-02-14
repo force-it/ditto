@@ -3,7 +3,7 @@ import { Dialog, Transition } from "@headlessui/react";
 import { CheckIcon, XIcon } from "@heroicons/react/outline";
 import Label from "@/Components/Label";
 import Input from "@/Components/Input";
-import { ModalButton } from "@/Components/Button";
+import { ConfirmButton } from "@/Components/Button";
 import { Inertia } from "@inertiajs/inertia";
 import { useForm } from "@inertiajs/inertia-react";
 
@@ -177,9 +177,9 @@ export default function CreateModal({ open, handleCloseModal }) {
                                             </div>
                                         </div>
                                         <div className="flex mt-5">
-                                            <ModalButton className="ml-auto">
+                                            <ConfirmButton className="ml-auto">
                                                 連結到群組
-                                            </ModalButton>
+                                            </ConfirmButton>
                                         </div>
                                     </div>
                                 </form>

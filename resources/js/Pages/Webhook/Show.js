@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ValidationErrors from "@/Components/ValidationErrors";
 import Authenticated from "@/Layouts/Authenticated";
 import { Head, Link, useForm, usePage } from "@inertiajs/inertia-react";
-import { CardButton } from "@/Components/Button";
+import { CardButton, ConfirmButton, ModalButton } from "@/Components/Button";
 import CopyTextToClipboardWrapper from "@/Components/CopyTextToClipboardWrapper";
 import Input from "@/Components/Input";
 import Label from "@/Components/Label";
@@ -68,6 +68,9 @@ export default function Show(props) {
                     <div className="ml-3">
                         <StateBadge active={webhookReceiver.data.malfunction} />
                     </div>
+                    <ModalButton className="ml-auto">
+                        刪除 Webhook 接收器
+                    </ModalButton>
                 </div>
 
                 <div className="mt-5 bg-white sm:rounded-lg">
@@ -94,9 +97,9 @@ export default function Show(props) {
                             <div className="flex items-center mt-3">
                                 <span>{webhookReceiver.data.chat.title}</span>
 
-                                <CardButton className="ml-auto">
+                                <ModalButton className="ml-auto">
                                     重新連結到其他群組
-                                </CardButton>
+                                </ModalButton>
                             </div>
                         </form>
                     </div>
