@@ -132,7 +132,7 @@ export default function CreateModal({ open, handleCloseModal }) {
                                                 />
                                             </div>
                                             <div className="col-span-6">
-                                                <Label value="通訊軟體" />
+                                                <Label value="要使用的通訊軟體" />
 
                                                 <div className="flex items-center mt-2">
                                                     <input
@@ -176,7 +176,7 @@ export default function CreateModal({ open, handleCloseModal }) {
                                                 />
                                             </div>
                                         </div>
-                                        <div className="flex mt-5 sm:mt-6">
+                                        <div className="flex mt-5">
                                             <ModalButton className="ml-auto">
                                                 連結到群組
                                             </ModalButton>
