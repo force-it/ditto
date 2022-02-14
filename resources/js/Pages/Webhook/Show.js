@@ -8,6 +8,7 @@ import Input from "@/Components/Input";
 import Label from "@/Components/Label";
 import { Inertia } from "@inertiajs/inertia";
 import { Alert } from "@/Components/lib/Alert";
+import StateBadge from "@/Components/StateBadge";
 
 export default function Show(props) {
     const { webhookReceiver } = usePage().props;
@@ -56,67 +57,66 @@ export default function Show(props) {
     };
 
     return (
-        <Authenticated
-            auth={props.auth}
-            errors={props.errors}
-            header={webhookReceiver.data.name}
-        >
+        <Authenticated auth={props.auth} errors={props.errors}>
             <Head title={`${webhookReceiver.data.name} - Webhook 接收器`} />
 
-            <div className="py-5">
-                <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
-                    <div className="bg-white sm:rounded-lg">
-                        <div className="p-6 bg-white">
-                            <div>
-                                <h1 className="text-xl">Webhook URL</h1>
+            <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+                <div className="flex items-center py-6">
+                    <h1 className="text-2xl font-bold">
+                        {webhookReceiver.data.name}
+                    </h1>
+                    <div className="ml-3">
+                        <StateBadge active={webhookReceiver.data.malfunction} />
+                    </div>
+                </div>
 
-                                <div className="mt-3">
-                                    <Alert>
-                                        將 JSON 資料發送到到這個 URL。
-                                    </Alert>
-                                </div>
+                <div className="mt-5 bg-white sm:rounded-lg">
+                    <div className="p-6 bg-white">
+                        <div>
+                            <h1 className="text-xl">Webhook URL</h1>
 
-                                <CopyTextToClipboardWrapper
-                                    text={webhookReceiver.data.uri}
-                                />
+                            <div className="mt-3">
+                                <Alert>將 JSON 資料發送到到這個 URL。</Alert>
                             </div>
+
+                            <CopyTextToClipboardWrapper
+                                text={webhookReceiver.data.uri}
+                            />
                         </div>
                     </div>
+                </div>
 
-                    <div className="bg-white sm:rounded-lg mt-5">
-                        <div className="p-6 bg-white">
-                            <form onSubmit={submit}>
-                                <h1 className="text-xl">您目前連結的群組</h1>
+                <div className="bg-white sm:rounded-lg mt-5">
+                    <div className="p-6 bg-white">
+                        <form onSubmit={submit}>
+                            <h1 className="text-xl">您目前連結的群組</h1>
 
-                                <div className="flex items-center mt-3">
-                                    <span>
-                                        {webhookReceiver.data.chat.title}
-                                    </span>
+                            <div className="flex items-center mt-3">
+                                <span>{webhookReceiver.data.chat.title}</span>
 
-                                    <CardButton className="ml-auto">
-                                        重新連結到其他群組
-                                    </CardButton>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-
-                    <div className="bg-white sm:rounded-lg mt-5">
-                        <div className="p-6 bg-white">
-                            <div>
-                                <h1 className="text-xl">BOT 資訊</h1>
-
-                                <p className="mt-3">
-                                    {webhookReceiver.data.bot.name}
-                                </p>
-                                <a
-                                    className="font-medium text-emerald-800 hover:text-emerald-700"
-                                    target="_blank"
-                                    href={`https://t.me/${webhookReceiver.data.bot.username}`}
-                                >
-                                    @{webhookReceiver.data.bot.username}
-                                </a>
+                                <CardButton className="ml-auto">
+                                    重新連結到其他群組
+                                </CardButton>
                             </div>
+                        </form>
+                    </div>
+                </div>
+
+                <div className="bg-white sm:rounded-lg mt-5">
+                    <div className="p-6 bg-white">
+                        <div>
+                            <h1 className="text-xl">BOT 資訊</h1>
+
+                            <p className="mt-3">
+                                {webhookReceiver.data.bot.name}
+                            </p>
+                            <a
+                                className="font-medium text-emerald-800 hover:text-emerald-700"
+                                target="_blank"
+                                href={`https://t.me/${webhookReceiver.data.bot.username}`}
+                            >
+                                @{webhookReceiver.data.bot.username}
+                            </a>
                         </div>
                     </div>
                 </div>

@@ -3,6 +3,7 @@ import Authenticated from "@/Layouts/Authenticated";
 import { Head, Link, InertiaLink, usePage } from "@inertiajs/inertia-react";
 import Button, { ModalButton } from "@/Components/Button";
 import CreateModal from "./CreateModal";
+import StateBadge from "@/Components/StateBadge";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
@@ -43,38 +44,10 @@ export default function Index(props) {
                         <p className="text-sm text-gray-500 truncate">
                             以 {webhookReceiver.bot.name} 發布到{" "}
                             {webhookReceiver.chat.title}
-                            {/* {webhookReceiver.user.name} on{" "}
-                            {webhookReceiver.created_at} */}
                         </p>
                     </div>
-                    <div className="flex items-center">
-                        <div>
-                            <span
-                                className={classNames(
-                                    !webhookReceiver.malfunction
-                                        ? "bg-green-400"
-                                        : "bg-red-400",
-                                    "inline-flex items-baseline px-2.5 py-1 rounded-full text-sm  bg-opacity-10 md:mt-2 lg:mt-0"
-                                )}
-                            >
-                                <span className="relative flex mr-1.5 w-2.5 h-2.5">
-                                    <span
-                                        className={classNames(
-                                            !webhookReceiver.malfunction
-                                                ? "bg-green-400"
-                                                : "bg-red-400",
-                                            "relative inline-flex w-2.5 h-2.5 rounded-full"
-                                        )}
-                                    ></span>
-                                </span>
-                                <span>
-                                    {!webhookReceiver.malfunction
-                                        ? "工作中"
-                                        : "故障"}
-                                </span>
-                            </span>
-                        </div>
-                    </div>
+
+                    <StateBadge active={webhookReceiver.malfunction} />
                 </div>
             </li>
         )
@@ -92,12 +65,12 @@ export default function Index(props) {
 
             <Head title="Webhook 接收器" />
 
-            <div className="max-w-7xl mx-auto pt-5 sm:px-6 lg:px-8">
+            <div className="max-w-7xl mx-auto py-5 sm:px-6 lg:px-8">
                 <ModalButton onClick={openModal}>
                     建立 Webhook 接收器
                 </ModalButton>
 
-                <div className="py-5 sm:py-6">
+                <div className="pt-5">
                     <div className="bg-white sm:rounded-lg">
                         <ul className="divide-y divide-gray-200">
                             {webhookReceiverItems}
