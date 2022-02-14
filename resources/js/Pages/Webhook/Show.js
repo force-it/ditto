@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import ValidationErrors from "@/Components/ValidationErrors";
 import Authenticated from "@/Layouts/Authenticated";
 import { Head, Link, useForm, usePage } from "@inertiajs/inertia-react";
-import Button from "@/Components/Button";
+import { CardButton } from "@/Components/Button";
 import CopyTextToClipboardWrapper from "@/Components/CopyTextToClipboardWrapper";
 import Input from "@/Components/Input";
 import Label from "@/Components/Label";
@@ -66,7 +66,7 @@ export default function Show(props) {
             <div className="py-5">
                 <div className="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div className="bg-white sm:rounded-lg">
-                        <div className="p-6 bg-white border-b border-gray-200">
+                        <div className="p-6 bg-white">
                             <div>
                                 <h1 className="text-xl">Webhook URL</h1>
 
@@ -83,34 +83,34 @@ export default function Show(props) {
                         </div>
                     </div>
 
-                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-5">
-                        <div className="p-6 bg-white border-b border-gray-200">
-                            <div>
+                    <div className="bg-white sm:rounded-lg mt-5">
+                        <div className="p-6 bg-white">
+                            <form onSubmit={submit}>
                                 <h1 className="text-xl">您目前連結的群組</h1>
 
-                                <p className="mt-6">
-                                    {webhookReceiver.data.chat.title}
-                                </p>
+                                <div className="flex items-center mt-3">
+                                    <span>
+                                        {webhookReceiver.data.chat.title}
+                                    </span>
 
-                                <div className="flex mt-4">
-                                    <form onSubmit={submit}>
-                                        <Button>重新連結到其他群組</Button>
-                                    </form>
+                                    <CardButton className="ml-auto">
+                                        重新連結到其他群組
+                                    </CardButton>
                                 </div>
-                            </div>
+                            </form>
                         </div>
                     </div>
 
-                    <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg mt-5">
-                        <div className="p-6 bg-white border-b border-gray-200">
+                    <div className="bg-white sm:rounded-lg mt-5">
+                        <div className="p-6 bg-white">
                             <div>
                                 <h1 className="text-xl">BOT 資訊</h1>
 
-                                <p className="mt-6">
+                                <p className="mt-3">
                                     {webhookReceiver.data.bot.name}
                                 </p>
                                 <a
-                                    className="font-medium text-gray-800 hover:text-gray-700"
+                                    className="font-medium text-emerald-800 hover:text-emerald-700"
                                     target="_blank"
                                     href={`https://t.me/${webhookReceiver.data.bot.username}`}
                                 >

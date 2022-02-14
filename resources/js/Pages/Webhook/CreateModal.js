@@ -177,10 +177,7 @@ export default function CreateModal({ open, handleCloseModal }) {
                                             </div>
                                         </div>
                                         <div className="flex mt-5 sm:mt-6">
-                                            <ModalButton
-                                                type="submit"
-                                                className="ml-auto"
-                                            >
+                                            <ModalButton className="ml-auto">
                                                 連結到群組
                                             </ModalButton>
                                         </div>

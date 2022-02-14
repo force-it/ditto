@@ -112,6 +112,12 @@ class TelegramController extends Controller
             3600
         );
 
+        $r = new ReflectionMethod(Telegram::class, 'sendRequest');
+        $r->setAccessible(true);
+        $r->invoke(new Telegram($webhookReceiver->bot->token), "setWebhook", [
+            'url' => config('receiver.host') . '/api/telegram',
+        ]);
+
         return response()->json([
             'url' => 'https://t.me/' . $webhookReceiver->bot->username . '?startgroup=' . $webhookReceiver->token,
             'token' => $webhookReceiver->token,
