@@ -11,6 +11,7 @@
     },
     "devDependencies": {
         "@babel/preset-react": "^7.13.13",
+        "@floating-ui/react-dom": "^0.4.3",
         "@headlessui/react": "^1.2.0",
         "@heroicons/react": "^1.0.5",
         "@inertiajs/inertia": "^0.9.0",
@@ -35,6 +36,7 @@
         "postcss-import": "^14.0.1",
         "pusher-js": "^7.0.3",
         "react": "^17.0.2",
+        "react-copy-to-clipboard": "^5.0.4",
         "react-dom": "^17.0.2",
         "react-refresh": "^0.11.0",
         "react-resize-detector": "^7.0.0",

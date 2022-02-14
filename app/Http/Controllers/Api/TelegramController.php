@@ -23,6 +23,7 @@ class TelegramController extends Controller
     {
         Validator::make($request->all(), [
             'bot_token' => ['required', 'string'],
+            'name' => ['required', 'string'],
         ])->validateWithBag('link');
 
         try {
@@ -52,7 +53,7 @@ class TelegramController extends Controller
         $token = Str::random(32);
         Cache::put(
             $token,
-            auth()->user()->id . ' ' . $bot->id,
+            auth()->user()->id . ' '. $request->name . ' ' . $bot->id,
             3600
         );
 
@@ -68,7 +69,7 @@ class TelegramController extends Controller
 
         try {
             $token = explode(' ', data_get($request, 'message.text'))[1];
-            list($userId, $botId) = explode(' ', Cache::get($token));
+            list($userId, $name, $botId) = explode(' ', Cache::get($token));
         } catch (\Throwable $th) {
             return response()->json([
                 'ok' => true,
@@ -80,6 +81,7 @@ class TelegramController extends Controller
         Cache::forget($token);
 
         $webhookReceiver = WebhookReceiver::updateOrCreate([
+            'name' => $name,
             'token' => $token,
         ], [
             'jmte' => '',
@@ -106,7 +108,7 @@ class TelegramController extends Controller
 
         Cache::put(
             $webhookReceiver->token,
-            auth()->user()->id . ' ' . $webhookReceiver->bot->id,
+            auth()->user()->id . ' '. $webhookReceiver->name . ' ' . $webhookReceiver->bot->id,
             3600
         );
 

@@ -33,12 +33,7 @@ export default function Authenticated({ auth, header, children }) {
                 </header>
             )}
 
-            <main
-                className="relative h-full w-full overflow-y-auto"
-                onScroll={() => {
-                    console.log("捲動嚕");
-                }}
-            >
+            <main className="relative h-full w-full overflow-y-auto">
                 {children}
             </main>
         </div>

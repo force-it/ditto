@@ -38,12 +38,13 @@ export default function Index(props) {
                             })}
                             preserveState
                         >
-                            以 {webhookReceiver.bot.name} 發布到{" "}
-                            {webhookReceiver.chat.title}
+                            {webhookReceiver.name}
                         </InertiaLink>
                         <p className="text-sm text-gray-500 truncate">
-                            {webhookReceiver.user.name} on{" "}
-                            {webhookReceiver.created_at}
+                            以 {webhookReceiver.bot.name} 發布到{" "}
+                            {webhookReceiver.chat.title}
+                            {/* {webhookReceiver.user.name} on{" "}
+                            {webhookReceiver.created_at} */}
                         </p>
                     </div>
                     <div className="flex items-center">
@@ -97,7 +98,7 @@ export default function Index(props) {
                 </ModalButton>
 
                 <div className="py-5 sm:py-6">
-                    <div className="bg-white overflow-hidden sm:rounded-lg">
+                    <div className="bg-white sm:rounded-lg">
                         <ul className="divide-y divide-gray-200">
                             {webhookReceiverItems}
                         </ul>
