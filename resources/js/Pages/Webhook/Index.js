@@ -11,7 +11,7 @@ function classNames(...classes) {
 
 export default function Index(props) {
     const { webhookReceivers } = usePage().props;
-    let [open, setOpen] = useState(false);
+    const [open, setOpen] = useState(false);
 
     function closeModal() {
         setOpen(false);
@@ -58,12 +58,12 @@ export default function Index(props) {
             errors={props.errors}
             header={<span>Webhook 接收器</span>}
         >
+            <Head title="Webhook 接收器" />
+
             <CreateModal
                 open={open}
                 handleCloseModal={closeModal}
             ></CreateModal>
-
-            <Head title="Webhook 接收器" />
 
             <div className="max-w-7xl mx-auto py-5 sm:px-6 lg:px-8">
                 <ModalButton onClick={openModal}>

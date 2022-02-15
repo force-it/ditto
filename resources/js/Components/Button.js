@@ -44,6 +44,52 @@ export function ModalButton({
     );
 }
 
+export function CancelButton({
+    type = "button",
+    className = "",
+    processing,
+    onClick,
+    children,
+}) {
+    return (
+        <button
+            type={type}
+            className={
+                `inline-flex items-center px-4 py-2 text-gray-600 border border-transparent rounded-md font-bold text-sm uppercase tracking-widest hover:bg-gray-100 transition ease-in-out duration-150 ${
+                    processing && "opacity-25"
+                } ` + className
+            }
+            disabled={processing}
+            onClick={onClick}
+        >
+            {children}
+        </button>
+    );
+}
+
+export function ModalConfirmButton({
+    type = "submit",
+    className = "",
+    processing,
+    onClick,
+    children,
+}) {
+    return (
+        <button
+            type={type}
+            className={
+                `inline-flex items-center px-4 py-2 text-emerald-600 border border-transparent rounded-md font-bold text-sm uppercase tracking-widest hover:bg-gray-100 transition ease-in-out duration-150 ${
+                    processing && "opacity-25"
+                } ` + className
+            }
+            disabled={processing}
+            onClick={onClick}
+        >
+            {children}
+        </button>
+    );
+}
+
 export function ConfirmButton({
     type = "submit",
     className = "",

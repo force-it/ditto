@@ -53,7 +53,7 @@ class TelegramController extends Controller
         $token = Str::random(32);
         Cache::put(
             $token,
-            auth()->user()->id . ' '. $request->name . ' ' . $bot->id,
+            auth()->user()->id.' '.str_replace(' ', '-', $request->name).' '.$bot->id,
             3600
         );
 

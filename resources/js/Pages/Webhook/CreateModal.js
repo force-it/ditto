@@ -71,7 +71,7 @@ export default function CreateModal({ open, handleCloseModal }) {
                 className="fixed z-10 inset-0 overflow-y-auto"
                 onClose={handleCloseModal}
             >
-                <div className="flex items-center justify-center min-h-screen">
+                <div className="">
                     <Transition.Child
                         as={Fragment}
                         enter="ease-out duration-300"
@@ -94,7 +94,7 @@ export default function CreateModal({ open, handleCloseModal }) {
                         leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
                     >
                         <div className="flex flex-col fixed inset-0 bg-gray-100 overflow-hidden transform transition-all">
-                            <div className="flex gap-2 shadow-md items-center py-3 px-4 sm:px-6 lg:px-8 bg-emerald-600">
+                            <div className="flex gap-2 items-center py-3 px-6 bg-emerald-600">
                                 <button
                                     type="button"
                                     className="h-12 w-12 rounded-full active:bg-emerald-700"
@@ -105,11 +105,11 @@ export default function CreateModal({ open, handleCloseModal }) {
                                         aria-hidden="true"
                                     />
                                 </button>
-                                <Dialog.Title className="text-lg font-medium text-white">
+                                <Dialog.Title className="leading-6 text-xl font-medium text-white">
                                     建立 Webhook 接收器
                                 </Dialog.Title>
                             </div>
-                            <div className="overflow-y-auto py-5 px-4 sm:px-6 lg:px-8">
+                            <span className="overflow-y-auto flex flex-col pt-5 pb-6 px-6">
                                 <form onSubmit={submit}>
                                     <div className="max-w-5xl mx-auto">
                                         <div className="flex flex-col gap-4 bg-white rounded px-4 py-5 sm:px-6">
@@ -176,14 +176,14 @@ export default function CreateModal({ open, handleCloseModal }) {
                                                 />
                                             </div>
                                         </div>
-                                        <div className="flex mt-5">
+                                        <div className="flex py-6">
                                             <ConfirmButton className="ml-auto">
                                                 連結到群組
                                             </ConfirmButton>
                                         </div>
                                     </div>
                                 </form>
-                            </div>
+                            </span>
                         </div>
                     </Transition.Child>
                 </div>

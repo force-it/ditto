@@ -33,4 +33,11 @@ class WebhookReceiverController extends Controller
             'webhookReceiver' => new ResourcesWebhookReceiver($webhookReceiver),
         ]);
     }
+
+    public function destroy(Request $request, WebhookReceiver $webhookReceiver)
+    {
+        $webhookReceiver->delete();
+
+        return redirect()->route('webhooks');
+    }
 }

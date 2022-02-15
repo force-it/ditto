@@ -9,10 +9,20 @@ import Label from "@/Components/Label";
 import { Inertia } from "@inertiajs/inertia";
 import { Alert } from "@/Components/lib/Alert";
 import StateBadge from "@/Components/StateBadge";
+import DeleteModal from "./DeleteModal";
 
 export default function Show(props) {
     const { webhookReceiver } = usePage().props;
     const [errors, setErrors] = useState({});
+    const [open, setOpen] = useState(false);
+
+    function closeModal() {
+        setOpen(false);
+    }
+
+    function openModal() {
+        setOpen(true);
+    }
 
     const submit = (e) => {
         e.preventDefault();
@@ -60,6 +70,12 @@ export default function Show(props) {
         <Authenticated auth={props.auth} errors={props.errors}>
             <Head title={`${webhookReceiver.data.name} - Webhook 接收器`} />
 
+            <DeleteModal
+                open={open}
+                handleCloseModal={closeModal}
+                webhookReceiver={webhookReceiver.data}
+            ></DeleteModal>
+
             <div className="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
                 <div className="flex items-center py-6">
                     <h1 className="text-2xl font-bold">
@@ -68,7 +84,7 @@ export default function Show(props) {
                     <div className="ml-3">
                         <StateBadge active={webhookReceiver.data.malfunction} />
                     </div>
-                    <ModalButton className="ml-auto">
+                    <ModalButton className="ml-auto" onClick={openModal}>
                         刪除 Webhook 接收器
                     </ModalButton>
                 </div>

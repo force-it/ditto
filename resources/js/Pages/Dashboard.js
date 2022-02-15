@@ -110,8 +110,8 @@ export default function Dashboard(props) {
         <Authenticated auth={props.auth} errors={props.errors}>
             <Head title="Dashboard" />
 
-            <div className="containe mx-auto pb-12">
-                <div className="relative h-screen min-h-screen bg-red-100 border-b border-gray-200">
+            <div className="containe mx-auto pb-12 h-full bg-[#cacdcf]">
+                <div className="relative bg-[#cacdcf]">
                     <div className="absolute top-0 left-0 pt-[128px] px-8 z-10">
                         <div className="px-6 pt-6 h-[402px] w-[306px] bg-white/90  rounded-lg border border-gray-300 backdrop-opacity-10">
                             <div className="py-2">
@@ -151,6 +151,207 @@ export default function Dashboard(props) {
                         className="w-full min-h-[550px] h-1/2"
                         handelLoaded={onLoaded}
                     />
+                    <div className="flex pb-12 px-8 gap-[20px] flex-wrap overflow-hidden">
+                        <div className="px-6 pt-6 h-[402px] w-[306px] bg-white/90  rounded-lg border border-gray-300 backdrop-opacity-10">
+                            <div className="py-2">
+                                <dt className="text-xs font-medium text-gray-500 truncate">
+                                    過去 30 分鐘的使用者
+                                </dt>
+                                <dd className="mt-1 text-3xl font-semibold text-gray-900 countup">
+                                    {loaded
+                                        ? new Intl.NumberFormat().format(
+                                              userCount
+                                          )
+                                        : "0"}
+                                </dd>
+                            </div>
+                            <div className="py-2">
+                                <dt className="text-xs font-medium text-gray-500 truncate">
+                                    每分鐘的使用者
+                                </dt>
+                                <dd className="mt-1 text-3xl font-semibold text-gray-900">
+                                    <BarChart data={data} />
+                                </dd>
+                            </div>
+                            <div className="py-2">
+                                <dt className="text-xs font-medium text-gray-500 truncate">
+                                    過去 30 分鐘的使用者
+                                </dt>
+                                <dd className="mt-1 text-3xl font-semibold text-gray-900">
+                                    <DonutChart
+                                        data={devices}
+                                        dountRef={dountRef}
+                                    />
+                                </dd>
+                            </div>
+                        </div>
+                        <div className="px-6 pt-6 h-[402px] w-[306px] bg-white/90  rounded-lg border border-gray-300 backdrop-opacity-10">
+                            <div className="py-2">
+                                <dt className="text-xs font-medium text-gray-500 truncate">
+                                    過去 30 分鐘的使用者
+                                </dt>
+                                <dd className="mt-1 text-3xl font-semibold text-gray-900 countup">
+                                    {loaded
+                                        ? new Intl.NumberFormat().format(
+                                              userCount
+                                          )
+                                        : "0"}
+                                </dd>
+                            </div>
+                            <div className="py-2">
+                                <dt className="text-xs font-medium text-gray-500 truncate">
+                                    每分鐘的使用者
+                                </dt>
+                                <dd className="mt-1 text-3xl font-semibold text-gray-900">
+                                    <BarChart data={data} />
+                                </dd>
+                            </div>
+                            <div className="py-2">
+                                <dt className="text-xs font-medium text-gray-500 truncate">
+                                    過去 30 分鐘的使用者
+                                </dt>
+                                <dd className="mt-1 text-3xl font-semibold text-gray-900">
+                                    <DonutChart
+                                        data={devices}
+                                        dountRef={dountRef}
+                                    />
+                                </dd>
+                            </div>
+                        </div>
+                        <div className="px-6 pt-6 h-[402px] w-[306px] bg-white/90  rounded-lg border border-gray-300 backdrop-opacity-10">
+                            <div className="py-2">
+                                <dt className="text-xs font-medium text-gray-500 truncate">
+                                    過去 30 分鐘的使用者
+                                </dt>
+                                <dd className="mt-1 text-3xl font-semibold text-gray-900 countup">
+                                    {loaded
+                                        ? new Intl.NumberFormat().format(
+                                              userCount
+                                          )
+                                        : "0"}
+                                </dd>
+                            </div>
+                            <div className="py-2">
+                                <dt className="text-xs font-medium text-gray-500 truncate">
+                                    每分鐘的使用者
+                                </dt>
+                                <dd className="mt-1 text-3xl font-semibold text-gray-900">
+                                    <BarChart data={data} />
+                                </dd>
+                            </div>
+                            <div className="py-2">
+                                <dt className="text-xs font-medium text-gray-500 truncate">
+                                    過去 30 分鐘的使用者
+                                </dt>
+                                <dd className="mt-1 text-3xl font-semibold text-gray-900">
+                                    <DonutChart
+                                        data={devices}
+                                        dountRef={dountRef}
+                                    />
+                                </dd>
+                            </div>
+                        </div>
+                        <div className="px-6 pt-6 h-[402px] w-[306px] bg-white/90  rounded-lg border border-gray-300 backdrop-opacity-10">
+                            <div className="py-2">
+                                <dt className="text-xs font-medium text-gray-500 truncate">
+                                    過去 30 分鐘的使用者
+                                </dt>
+                                <dd className="mt-1 text-3xl font-semibold text-gray-900 countup">
+                                    {loaded
+                                        ? new Intl.NumberFormat().format(
+                                              userCount
+                                          )
+                                        : "0"}
+                                </dd>
+                            </div>
+                            <div className="py-2">
+                                <dt className="text-xs font-medium text-gray-500 truncate">
+                                    每分鐘的使用者
+                                </dt>
+                                <dd className="mt-1 text-3xl font-semibold text-gray-900">
+                                    <BarChart data={data} />
+                                </dd>
+                            </div>
+                            <div className="py-2">
+                                <dt className="text-xs font-medium text-gray-500 truncate">
+                                    過去 30 分鐘的使用者
+                                </dt>
+                                <dd className="mt-1 text-3xl font-semibold text-gray-900">
+                                    <DonutChart
+                                        data={devices}
+                                        dountRef={dountRef}
+                                    />
+                                </dd>
+                            </div>
+                        </div>
+                        <div className="px-6 pt-6 h-[402px] w-[306px] bg-white/90  rounded-lg border border-gray-300 backdrop-opacity-10">
+                            <div className="py-2">
+                                <dt className="text-xs font-medium text-gray-500 truncate">
+                                    過去 30 分鐘的使用者
+                                </dt>
+                                <dd className="mt-1 text-3xl font-semibold text-gray-900 countup">
+                                    {loaded
+                                        ? new Intl.NumberFormat().format(
+                                              userCount
+                                          )
+                                        : "0"}
+                                </dd>
+                            </div>
+                            <div className="py-2">
+                                <dt className="text-xs font-medium text-gray-500 truncate">
+                                    每分鐘的使用者
+                                </dt>
+                                <dd className="mt-1 text-3xl font-semibold text-gray-900">
+                                    <BarChart data={data} />
+                                </dd>
+                            </div>
+                            <div className="py-2">
+                                <dt className="text-xs font-medium text-gray-500 truncate">
+                                    過去 30 分鐘的使用者
+                                </dt>
+                                <dd className="mt-1 text-3xl font-semibold text-gray-900">
+                                    <DonutChart
+                                        data={devices}
+                                        dountRef={dountRef}
+                                    />
+                                </dd>
+                            </div>
+                        </div>
+
+                        <div className="px-6 pt-6 h-[402px] w-[306px] bg-white/90  rounded-lg border border-gray-300 backdrop-opacity-10">
+                            <div className="py-2">
+                                <dt className="text-xs font-medium text-gray-500 truncate">
+                                    過去 30 分鐘的使用者
+                                </dt>
+                                <dd className="mt-1 text-3xl font-semibold text-gray-900 countup">
+                                    {loaded
+                                        ? new Intl.NumberFormat().format(
+                                              userCount
+                                          )
+                                        : "0"}
+                                </dd>
+                            </div>
+                            <div className="py-2">
+                                <dt className="text-xs font-medium text-gray-500 truncate">
+                                    每分鐘的使用者
+                                </dt>
+                                <dd className="mt-1 text-3xl font-semibold text-gray-900">
+                                    <BarChart data={data} />
+                                </dd>
+                            </div>
+                            <div className="py-2">
+                                <dt className="text-xs font-medium text-gray-500 truncate">
+                                    過去 30 分鐘的使用者
+                                </dt>
+                                <dd className="mt-1 text-3xl font-semibold text-gray-900">
+                                    <DonutChart
+                                        data={devices}
+                                        dountRef={dountRef}
+                                    />
+                                </dd>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </Authenticated>
