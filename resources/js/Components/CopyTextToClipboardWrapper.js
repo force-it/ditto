@@ -30,7 +30,7 @@ export default function CopyTextToClipboardWrapper({ className = "", text }) {
                 ref={reference}
                 onClick={copyToClipboard}
                 className={
-                    `inline-flex w-full items-center mt-5 p-4 bg-gray-800 text-gray-100 rounded-lg hover:underline ` +
+                    `inline-flex w-full items-center p-4 bg-gray-800 text-gray-100 rounded-lg hover:underline ` +
                     className
                 }
             >

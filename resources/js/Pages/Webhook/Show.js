@@ -10,6 +10,7 @@ import { Inertia } from "@inertiajs/inertia";
 import { Alert } from "@/Components/lib/Alert";
 import StateBadge from "@/Components/StateBadge";
 import DeleteModal from "./DeleteModal";
+import JmteTemplate from "./JmteTemplate";
 
 export default function Show(props) {
     const { webhookReceiver } = usePage().props;
@@ -89,53 +90,57 @@ export default function Show(props) {
                     </ModalButton>
                 </div>
 
-                <div className="mt-5 bg-white sm:rounded-lg">
-                    <div className="p-6 bg-white">
-                        <div>
-                            <h1 className="text-xl">Webhook URL</h1>
+                <div className="mt-5 space-y-4">
+                    <div className="bg-white sm:rounded-lg">
+                        <div className="p-6 bg-white">
+                            <div className="space-y-3">
+                                <h1 className="text-xl">Webhook URL</h1>
 
-                            <div className="mt-3">
                                 <Alert>將 JSON 資料發送到到這個 URL。</Alert>
-                            </div>
 
-                            <CopyTextToClipboardWrapper
-                                text={webhookReceiver.data.uri}
-                            />
+                                <CopyTextToClipboardWrapper
+                                    text={webhookReceiver.data.uri}
+                                />
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div className="bg-white sm:rounded-lg mt-5">
-                    <div className="p-6 bg-white">
-                        <form onSubmit={submit}>
-                            <h1 className="text-xl">您目前連結的群組</h1>
+                    <div className="bg-white sm:rounded-lg">
+                        <div className="p-6 bg-white">
+                            <form onSubmit={submit}>
+                                <h1 className="text-xl">您目前連結的群組</h1>
 
-                            <div className="flex items-center mt-3">
-                                <span>{webhookReceiver.data.chat.title}</span>
+                                <div className="flex items-center mt-3">
+                                    <span>
+                                        {webhookReceiver.data.chat.title}
+                                    </span>
 
-                                <ModalButton className="ml-auto">
-                                    重新連結到其他群組
-                                </ModalButton>
-                            </div>
-                        </form>
+                                    <ModalButton className="ml-auto">
+                                        重新連結到其他群組
+                                    </ModalButton>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                </div>
 
-                <div className="bg-white sm:rounded-lg mt-5">
-                    <div className="p-6 bg-white">
-                        <div>
-                            <h1 className="text-xl">BOT 資訊</h1>
+                    <JmteTemplate webhookReceiver={webhookReceiver.data} />
 
-                            <p className="mt-3">
-                                {webhookReceiver.data.bot.name}
-                            </p>
-                            <a
-                                className="font-medium text-emerald-800 hover:text-emerald-700"
-                                target="_blank"
-                                href={`https://t.me/${webhookReceiver.data.bot.username}`}
-                            >
-                                @{webhookReceiver.data.bot.username}
-                            </a>
+                    <div className="bg-white sm:rounded-lg">
+                        <div className="p-6 bg-white">
+                            <div>
+                                <h1 className="text-xl">BOT 資訊</h1>
+
+                                <p className="mt-3">
+                                    {webhookReceiver.data.bot.name}
+                                </p>
+                                <a
+                                    className="font-medium text-emerald-800 hover:text-emerald-700"
+                                    target="_blank"
+                                    href={`https://t.me/${webhookReceiver.data.bot.username}`}
+                                >
+                                    @{webhookReceiver.data.bot.username}
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
