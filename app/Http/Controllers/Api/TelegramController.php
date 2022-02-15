@@ -84,7 +84,6 @@ class TelegramController extends Controller
             'name' => $name,
             'token' => $token,
         ], [
-            'jmte' => '',
             'user_id' => $userId,
             'bot_id' => $botId,
             'chat' => data_get($request, 'message.chat'),
