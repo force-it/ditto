@@ -7,7 +7,7 @@ import CopyTextToClipboardWrapper from "@/Components/CopyTextToClipboardWrapper"
 import Input from "@/Components/Input";
 import Label from "@/Components/Label";
 import { Inertia } from "@inertiajs/inertia";
-import { Alert } from "@/Components/lib/Alert";
+import { Alert, ErrorAlert } from "@/Components/lib/Alert";
 import StateBadge from "@/Components/StateBadge";
 import DeleteModal from "./DeleteModal";
 import JmteTemplate from "./JmteTemplate";
@@ -91,6 +91,12 @@ export default function Show(props) {
                 </div>
 
                 <div className="mt-5 space-y-4">
+                    {webhookReceiver.data.malfunction && (
+                        <ErrorAlert>
+                            {webhookReceiver.data.malfunction}
+                        </ErrorAlert>
+                    )}
+
                     <div className="bg-white sm:rounded-lg">
                         <div className="p-6 bg-white">
                             <div className="space-y-3">
@@ -104,6 +110,8 @@ export default function Show(props) {
                             </div>
                         </div>
                     </div>
+
+                    <JmteTemplate webhookReceiver={webhookReceiver.data} />
 
                     <div className="bg-white sm:rounded-lg">
                         <div className="p-6 bg-white">
@@ -122,8 +130,6 @@ export default function Show(props) {
                             </form>
                         </div>
                     </div>
-
-                    <JmteTemplate webhookReceiver={webhookReceiver.data} />
 
                     <div className="bg-white sm:rounded-lg">
                         <div className="p-6 bg-white">

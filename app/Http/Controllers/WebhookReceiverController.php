@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Models\WebhookReceiver;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
 use App\Http\Resources\WebhookReceiver as ResourcesWebhookReceiver;
@@ -39,7 +40,7 @@ class WebhookReceiverController extends Controller
     public function update(Request $request, WebhookReceiver $webhookReceiver)
     {
         Validator::make($request->all(), [
-            'jmte' => ['string'],
+            'jmte' => ['nullable', 'string'],
         ])->validateWithBag('updateWebhookReceiver');
 
         try {

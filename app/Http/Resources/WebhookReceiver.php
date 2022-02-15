@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use Illuminate\Support\Str;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class WebhookReceiver extends JsonResource
@@ -14,6 +15,11 @@ class WebhookReceiver extends JsonResource
      */
     public function toArray($request)
     {
+        $malfunction = $this->malfunction;
+        if (Str::contains($this->malfunction, 'message must be non-empty')) {
+            $malfunction = '請設定訊息模板。';
+        }
+        // message must be non-empty
          return [
             'id' => $this->id,
             'user' => $this->user,
@@ -21,10 +27,10 @@ class WebhookReceiver extends JsonResource
             'name' => $this->name,
             'token' => $this->token,
             'uri' => config('receiver.host') . '/api/webhooks/' . $this->token,
-            'malfunction' => $this->malfunction,
+            'malfunction' => $malfunction,
             'bot' => $this->bot,
             'dql' => $this->dql,
-            'jmte' => $this->jmte,
+            'jmte' => !empty($this->jmte) ? $this->jmte : "",
             'created_at' => $this->created_at->diffForHumans(),
         ];
     }
