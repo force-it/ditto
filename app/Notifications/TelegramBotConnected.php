@@ -46,7 +46,7 @@ class TelegramBotConnected extends Notification
     {
      return TelegramMessage::create()
             ->content(implode(PHP_EOL,[
-                '連結成功 ❤️' . PHP_EOL,
+                '連結成功 🚀' . PHP_EOL,
             ]))->token($this->token);
     }
 
