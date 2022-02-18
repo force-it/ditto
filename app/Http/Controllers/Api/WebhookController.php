@@ -3,11 +3,14 @@
 namespace App\Http\Controllers\Api;
 
 use Illuminate\Http\Request;
+use App\Notifications\TestTg;
 use App\Models\WebhookReceiver;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Blade;
 use App\Notifications\WebhookReceived;
 use Symfony\Component\Process\Process;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Notification;
 
 class WebhookController extends Controller
@@ -22,11 +25,39 @@ class WebhookController extends Controller
             ]);
         }
 
+        $content = $this->parseMessage($request->all(), $webhookReceiver->jmte);
+        $buttonUrl = $this->trim($this->parseMessage($request->all(), data_get($webhookReceiver, 'buttons.url', '')));
+        if ($this->validationUrl($buttonUrl)) {
+            $buttonUrl = '';
+        }
+
+        try {
+            Notification::route('telegram', data_get($webhookReceiver, 'chat.id'))
+                ->notify(new WebhookReceived($webhookReceiver, $content, $buttonUrl));
+            if ($webhookReceiver->malfunction) {
+                $webhookReceiver->malfunction = null;
+                $webhookReceiver->save();
+            }
+        } catch (\Throwable $th) {
+            $webhookReceiver->malfunction = $th->getMessage();
+            $webhookReceiver->save();
+            Log::info('輸入', $request->all());
+        }
+
+        return response()->json([
+            'ok' => true,
+            'result' => true,
+            'description' => 'OK'
+        ]);
+    }
+
+    protected function parseMessage($importProperties, $importTemplate)
+    {
         $properties = tmpfile();
-        fwrite($properties, yaml_emit($request->all()));
+        fwrite($properties, yaml_emit($importProperties));
 
         $template = tmpfile();
-        fwrite($template, $webhookReceiver->jmte);
+        fwrite($template, $importTemplate);
 
         $process = new Process([
             'java',
@@ -43,23 +74,24 @@ class WebhookController extends Controller
         fclose($template);
         fclose($properties);
 
-        try {
-            Notification::route('telegram', data_get($webhookReceiver, 'chat.id'))
-                ->notify(new WebhookReceived($result, $webhookReceiver));
-            if ($webhookReceiver->malfunction) {
-                $webhookReceiver->malfunction = null;
-                $webhookReceiver->save();
-            }
-        } catch (\Throwable $th) {
-            $webhookReceiver->malfunction = $th->getMessage();
-            $webhookReceiver->save();
-            Log::info('輸入', $request->all());
+        return $result;
+    }
+
+    protected function validationUrl($url)
+    {
+        $validator= Validator::make(['url' => $url], [
+                'url' => ['nullable', 'url'],
+        ]);
+        if ($validator->fails()) {
+            // $validator->errors()->first('url');
+            // 存進 alerts 中
         }
 
-        return response()->json([
-            'ok' => true,
-            'result' => true,
-            'description' => 'OK'
-        ]);
+        return $validator->fails();
+    }
+
+    protected function trim($string)
+    {
+        return trim(preg_replace('/\s\s+/', ' ', $string));
     }
 }

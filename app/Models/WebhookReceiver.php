@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Casts\AsCollection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class WebhookReceiver extends Model
@@ -15,6 +16,8 @@ class WebhookReceiver extends Model
     protected $casts = [
         'chat' => 'array',
         'dql' => 'object',
+        'buttons' => AsCollection::class,
+        'alerts' => 'array',
     ];
 
     protected $appends = [

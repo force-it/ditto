@@ -11,6 +11,7 @@ import { Alert, ErrorAlert } from "@/Components/lib/Alert";
 import StateBadge from "@/Components/StateBadge";
 import DeleteModal from "./DeleteModal";
 import JmteTemplate from "./JmteTemplate";
+import CustomButton from "./CustomButton";
 
 export default function Show({ webhookReceiver, auth }) {
     const [errors, setErrors] = useState({});
@@ -109,6 +110,8 @@ export default function Show({ webhookReceiver, auth }) {
                     </div>
 
                     <JmteTemplate webhookReceiver={webhookReceiver} />
+
+                    <CustomButton webhookReceiver={webhookReceiver} />
 
                     <div className="bg-white sm:rounded-lg">
                         <div className="p-6 bg-white">

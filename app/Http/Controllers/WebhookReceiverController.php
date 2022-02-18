@@ -44,12 +44,25 @@ class WebhookReceiverController extends Controller
     {
         Validator::make($request->all(), [
             'jmte' => ['nullable', 'string'],
+            'button_name' => ['required_with:button_url', 'string'],
+            'button_url' => ['required_with:button_name', 'string'],
         ])->validateWithBag('updateWebhookReceiver');
 
         try {
-            $webhookReceiver->forceFill([
-                'jmte' => $request->jmte,
-            ])->save();
+            if ($request->jmte) {
+                $webhookReceiver->forceFill([
+                    'jmte' => $request->jmte,
+                ])->save();
+            }
+
+            if ($request->button_name && $request->button_url) {
+                $webhookReceiver->buttons = [
+                    'name' => $request->button_name,
+                    'url' => $request->button_url,
+                ];
+
+                $webhookReceiver->save();
+            }
         } catch (\Throwable $th) {
             throw $th;
             throw ValidationException::withMessages([
