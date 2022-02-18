@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Casts\AsCollection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -33,7 +34,7 @@ class WebhookReceiver extends Model
      */
     public function resolveRouteBinding($value, $field = null)
     {
-        return $this->with('bot')->firstOrFail();
+        return $this->with('bot')->where('id', $value)->firstOrFail();
     }
 
     public function user()
