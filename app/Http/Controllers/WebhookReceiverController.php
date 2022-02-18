@@ -8,16 +8,16 @@ use App\Models\WebhookReceiver;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\ValidationException;
-use App\Http\Resources\WebhookReceiver as ResourcesWebhookReceiver;
+use App\Http\Resources\WebhookReceiverResource;
 
 class WebhookReceiverController extends Controller
 {
     public function index(Request $request)
     {
-        $webhookReceivers = WebhookReceiver::with(['bot', 'user'])->orderBy('created_at', 'desc')->get();
+        $webhookReceivers = WebhookReceiver::with(['bot'])->orderBy('created_at', 'desc')->paginate();
 
         return Inertia::render('Webhook/Index', [
-            'webhookReceivers' => ResourcesWebhookReceiver::collection($webhookReceivers),
+            'webhookReceivers' => $webhookReceivers,
         ]);
     }
 
@@ -26,14 +26,17 @@ class WebhookReceiverController extends Controller
         return Inertia::render('Webhook/Create');
     }
 
-    public function show(Request $request, $webhookReceiverId)
+    public function show(Request $request, WebhookReceiver $webhookReceiver)
     {
-        if (!$webhookReceiver = WebhookReceiver::find($webhookReceiverId)) {
-            return redirect()->intended(config('app.url'));
-        }
-
         return Inertia::render('Webhook/Show', [
-            'webhookReceiver' => new ResourcesWebhookReceiver($webhookReceiver),
+            'webhookReceiver' => $webhookReceiver,
+        ]);
+    }
+
+    public function refresh(Request $request, WebhookReceiver $webhookReceiver)
+    {
+        return Inertia::render('Webhook/Show', [
+            'webhookReceiver' => $webhookReceiver,
         ]);
     }
 

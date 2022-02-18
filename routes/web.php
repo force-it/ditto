@@ -29,7 +29,11 @@ Route::get('/dashboard', function () {
 Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('/webhooks', [WebhookReceiverController::class, 'index'])->name('webhooks');
     Route::get('/webhooks/create', [WebhookReceiverController::class, 'create'])->name('webhooks.create');
-    Route::get('/webhooks/{webhookReceiver}', [WebhookReceiverController::class, 'show'])->name('webhooks.show');
+    Route::get('/webhooks/{webhookReceiver}', [WebhookReceiverController::class, 'show'])
+        ->name('webhooks.show')
+        ->missing(function (Request $request) {
+            return redirect()->route('webhooks');
+        });
     Route::put('/webhooks/{webhookReceiver}', [WebhookReceiverController::class, 'update'])->name('webhooks.update');
     Route::delete('/webhooks/{webhookReceiver}', [WebhookReceiverController::class, 'destroy'])->name('webhooks.destroy');
 

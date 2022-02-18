@@ -9,8 +9,7 @@ function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
 
-export default function Index(props) {
-    const { webhookReceivers } = usePage().props;
+export default function Index({ auth, errors, webhookReceivers }) {
     const [open, setOpen] = useState(false);
 
     function closeModal() {
@@ -52,10 +51,11 @@ export default function Index(props) {
             </li>
         )
     );
+
     return (
         <Authenticated
-            auth={props.auth}
-            errors={props.errors}
+            auth={auth}
+            errors={errors}
             header={<span>Webhook 接收器</span>}
         >
             <Head title="Webhook 接收器" />

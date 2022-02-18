@@ -12,7 +12,11 @@ class Bot extends Model
     const TYPE_NOTIFY = 'notify';
     const TYPE_RECEIVER = 'receiver';
 
-    protected $guarded = [];
+    protected $hidden = [
+        'token',
+        'created_at',
+
+    ];
 
     protected $casts = [
         'meta' => 'object',
