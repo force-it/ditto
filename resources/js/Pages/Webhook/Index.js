@@ -4,6 +4,7 @@ import { Head, Link, InertiaLink, usePage } from "@inertiajs/inertia-react";
 import Button, { ModalButton } from "@/Components/Button";
 import CreateModal from "./CreateModal";
 import StateBadge from "@/Components/StateBadge";
+import { MobileFullWidth } from "@/Components/lib/Container";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
@@ -65,7 +66,7 @@ export default function Index({ auth, errors, webhookReceivers }) {
                 handleCloseModal={closeModal}
             ></CreateModal>
 
-            <div className="max-w-7xl mx-auto py-5 sm:px-6 lg:px-8">
+            <MobileFullWidth>
                 <ModalButton onClick={openModal}>
                     建立 Webhook 接收器
                 </ModalButton>
@@ -77,7 +78,7 @@ export default function Index({ auth, errors, webhookReceivers }) {
                         </ul>
                     </div>
                 </div>
-            </div>
+            </MobileFullWidth>
         </Authenticated>
     );
 }
