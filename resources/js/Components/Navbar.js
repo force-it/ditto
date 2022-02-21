@@ -19,7 +19,7 @@ export default function Navbar({ auth, navigation }) {
                     <div className="flex">
                         <div className="shrink-0 flex items-center">
                             <Link href="/dashboard">
-                                <span className="ml-3 text-2xl font-bold">
+                                <span className="text-2xl font-bold">
                                     Zacian
                                 </span>
                             </Link>

@@ -11,7 +11,7 @@ export default function AdminNavbar({ auth, userNavigation }) {
             <div className="relative flex justify-between xl:grid xl:grid-cols-12 lg:gap-8">
                 <div className="flex lg:static xl:col-span-2">
                     <div className="flex-shrink-0 flex items-center">
-                        <span className="ml-3 text-2xl text-white/90 font-bold">
+                        <span className="text-2xl text-white/90 font-bold">
                             Zacian Admin
                         </span>
                     </div>
