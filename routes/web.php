@@ -1,9 +1,11 @@
 <?php
 
 use Inertia\Inertia;
+use App\Models\Og\UserLogin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Foundation\Application;
+use App\Http\Controllers\AnalyticsController;
 use App\Http\Controllers\Admin\HomeController;
 use App\Http\Controllers\WebhookReceiverController;
 use App\Http\Controllers\Admin\OrganizationController;
@@ -23,11 +25,9 @@ Route::get('/', function () {
     return redirect()->route('dashboard');
 });
 
-Route::get('/dashboard', function () {
-    return Inertia::render('Dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
+    Route::get('/dashboard', [AnalyticsController::class, 'index'])->name('dashboard');
+
     Route::get('/webhooks', [WebhookReceiverController::class, 'index'])->name('webhooks');
     Route::get('/webhooks/create', [WebhookReceiverController::class, 'create'])->name('webhooks.create');
     Route::get('/webhooks/{webhookReceiver}', [WebhookReceiverController::class, 'show'])

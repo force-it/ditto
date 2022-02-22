@@ -3,7 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Model;
 
 class Bot extends Model
 {
@@ -15,7 +15,6 @@ class Bot extends Model
     protected $hidden = [
         'token',
         'created_at',
-
     ];
 
     protected $casts = [

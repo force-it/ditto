@@ -3,7 +3,7 @@
 namespace {{ namespace }};
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use App\Models;
+use App\Models\Model;
 
 class {{ class }} extends Model
 {

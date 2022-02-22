@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
-use Illuminate\Database\Eloquent\Model;
+use App\Models\Model;
 use Illuminate\Database\Eloquent\Casts\AsCollection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
