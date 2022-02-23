@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Navbar from "@/Components/Navbar";
 import { ChevronRightIcon } from "@heroicons/react/solid";
+import { useScroll } from "@/context/scroll-context";
 
 const userNavigation = [
     { name: "退出「管理控制台」", href: route("dashboard") },
@@ -8,6 +9,8 @@ const userNavigation = [
 ];
 
 export default function Authenticated({ auth, header, children }) {
+    const { ref } = useScroll();
+
     const [navigation, setNavigation] = useState([
         {
             name: "即時總覽",
@@ -32,8 +35,10 @@ export default function Authenticated({ auth, header, children }) {
                     </div>
                 </header>
             )}
-
-            <main className="relative h-full w-full overflow-y-auto">
+            <main
+                ref={ref}
+                className="relative h-full w-full overflow-hidden overflow-y-auto z-0"
+            >
                 {children}
             </main>
         </div>

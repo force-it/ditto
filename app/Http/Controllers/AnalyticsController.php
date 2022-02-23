@@ -9,6 +9,6 @@ class AnalyticsController extends Controller
 {
    public function index(Request $request)
     {
-        return Inertia::render('Dashboard');
+        return Inertia::render('Realtime/Overview');
     }
 }

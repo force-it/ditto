@@ -12,6 +12,10 @@
     body,
     #app {
         @apply h-full;
+        @apply relative;
+    }
+
+    body {
         @apply overflow-hidden;
     }
 }

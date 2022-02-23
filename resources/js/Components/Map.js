@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import mapboxgl from "mapbox-gl";
 import * as d3 from "d3";
 import * as Papa from "papaparse";
+import { useLoaded } from "@/context/loaded-context";
 
 mapboxgl.accessToken =
     "pk.eyJ1IjoiY2hhb3llbnBvIiwiYSI6ImNrd241bDFoODJpbncyb3FiOWl2dWh5M2oifQ.xCwkQjChmmpM8g_f6U64pw";
@@ -10,7 +11,8 @@ function getRandom(x) {
     return Math.floor(Math.random() * x);
 }
 
-const Map = ({ className = "", handelLoaded = () => {} }) => {
+const Map = ({ className = "" }) => {
+    const { setLoaded } = useLoaded();
     const mapContainer = useRef(null);
     const map = useRef(null);
     const tooltip = useRef(null);
@@ -33,8 +35,6 @@ const Map = ({ className = "", handelLoaded = () => {} }) => {
             do {
                 index = getRandom(data.length);
             } while (data[index][5] !== "CN");
-
-            console.log(data[index][5]);
 
             return {
                 type: "Feature",
@@ -70,7 +70,7 @@ const Map = ({ className = "", handelLoaded = () => {} }) => {
         });
 
         map.current.on("load", () => {
-            handelLoaded();
+            setLoaded();
 
             for (const feature of geojson.features) {
                 // Add a new Marker.

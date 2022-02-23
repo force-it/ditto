@@ -10,7 +10,6 @@ import { Head } from "@inertiajs/inertia-react";
 import Map from "@/Components/Map";
 import BarChart from "@/Components/BarChart";
 import DonutChart from "@/Components/DonutChart";
-import counterUp from "counterup2";
 import { borderWidth } from "tailwindcss/defaultTheme";
 import { forEach } from "lodash";
 import * as d3 from "d3";
@@ -88,29 +87,11 @@ export default function Dashboard(props) {
         return () => {};
     }, [loaded]);
 
-    // useEffect(() => {
-    //   return;
-    //   fetch('http://ip-api.com/batch?lang=zh-CN', {
-    //     method: 'POST', // or 'PUT'
-    //     body: JSON.stringify([
-    //       '122.96.33.54',
-    //       '42.249.36.213',
-    //       '223.104.161.168',
-    //       '223.97.54.170'
-    //     ]), // data can be `string` or {object}!
-    //     headers: new Headers({
-    //       'Content-Type': 'application/json'
-    //     })
-    //   }).then(res => res.json()).then(res => {
-    //     console.log(res)
-    //   })
-    // })
-
     return (
         <Authenticated auth={props.auth} errors={props.errors}>
             <Head title="Dashboard" />
 
-            <div className="containe mx-auto pb-12 h-full bg-[#cacdcf]">
+            <div className="mx-auto h-full bg-[#cacdcf]">
                 <div className="relative bg-[#cacdcf]">
                     <div className="absolute top-0 left-0 pt-[128px] px-8 z-10">
                         <div className="px-6 pt-6 h-[402px] w-[306px] bg-white/90  rounded-lg border border-gray-300 backdrop-opacity-10">
