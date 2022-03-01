@@ -74,7 +74,7 @@ export default function Overview(props) {
         <Authenticated auth={props.auth} errors={props.errors}>
             <Head title="Dashboard" />
 
-            <div className="bg-[#cacdcf]">
+            <div className="h-full bg-[#cacdcf]">
                 <Header isScroll={scroll.y > 0} />
 
                 <MapCard data={data} devices={devices} userCount={userCount} />

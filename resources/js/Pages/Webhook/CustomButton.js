@@ -11,6 +11,8 @@ export default function CustomButton({ webhookReceiver }) {
     const { data, setData, put, reset, processing, isDirty } = useForm({
         button_name: webhookReceiver.buttons.name,
         button_url: webhookReceiver.buttons.url,
+        button_replace_before: webhookReceiver.buttons.replace?.before,
+        button_replace_after: webhookReceiver.buttons.replace?.after,
     });
     const [showSuccessAlert, setShowSuccessAlert] = React.useState(false);
 
@@ -54,7 +56,6 @@ export default function CustomButton({ webhookReceiver }) {
                                 value={data.button_name}
                                 className="mt-1 block w-full"
                                 handleChange={onHandleChange}
-                                required
                             />
                         </div>
                         <div>
@@ -66,13 +67,33 @@ export default function CustomButton({ webhookReceiver }) {
                                 value={data.button_url}
                                 className="mt-1 block w-full"
                                 handleChange={onHandleChange}
-                                required
                             />
                             <p className="mt-1 text-sm text-gray-600">
                                 可填入{" "}
                                 <span className="bg-red-50 px-1 text-red-600">
                                     {"${alertURL}"}
                                 </span>
+                            </p>
+                        </div>
+                        <div>
+                            <Label value="文字替換" />
+
+                            <Input
+                                type="text"
+                                name="button_replace_before"
+                                value={data.button_replace_before}
+                                className="mt-1 block w-full"
+                                handleChange={onHandleChange}
+                            />
+                            <Input
+                                type="text"
+                                name="button_replace_after"
+                                value={data.button_replace_after}
+                                className="mt-1 block w-full"
+                                handleChange={onHandleChange}
+                            />
+                            <p className="mt-1 text-sm text-gray-600">
+                                將上方文字替換為下方文字
                             </p>
                         </div>
 

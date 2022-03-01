@@ -44,25 +44,30 @@ class WebhookReceiverController extends Controller
     {
         Validator::make($request->all(), [
             'jmte' => ['nullable', 'string'],
-            'button_name' => ['required_with:button_url', 'string'],
-            'button_url' => ['required_with:button_name', 'string'],
+            'button_name' => ['required_with:button_url', 'nullable', 'string'],
+            'button_url' => ['required_with:button_name', 'nullable', 'string'],
+            'button_replace_before' => ['required_with:button_replace_after', 'nullable','string'],
+            'button_replace_after' => ['nullable', 'string'],
         ])->validateWithBag('updateWebhookReceiver');
 
         try {
             if ($request->jmte) {
                 $webhookReceiver->forceFill([
                     'jmte' => $request->jmte,
-                ])->save();
+                ]);
             }
 
-            if ($request->button_name && $request->button_url) {
-                $webhookReceiver->buttons = [
-                    'name' => $request->button_name,
-                    'url' => $request->button_url,
-                ];
+            $webhookReceiver->buttons = [
+                'name' => $request->button_name,
+                'url' => $request->button_url,
+            ];
 
-                $webhookReceiver->save();
-            }
+            $webhookReceiver->buttons['replace'] = [
+                'before' => $request->button_replace_before,
+                'after' => $request->button_replace_after,
+            ];
+
+            $webhookReceiver->save();
         } catch (\Throwable $th) {
             throw $th;
             throw ValidationException::withMessages([

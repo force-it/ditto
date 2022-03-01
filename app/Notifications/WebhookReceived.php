@@ -41,6 +41,13 @@ class WebhookReceived extends Notification
     public function toTelegram($notifiable)
     {
         if ($this->buttonUrl) {
+            $url = data_get($this->webhookReceiver, 'buttons.replace') ?
+                Str::replace(
+                    data_get($this->webhookReceiver, 'buttons.replace.before'),
+                    data_get($this->webhookReceiver, 'buttons.replace.after'),
+                    $this->buttonUrl) :
+                $this->buttonUrl;
+
             return TelegramMessage::create()
                 ->content(
                     // Telegram 只能發送 4096 bytes 的資料，扣掉 Str:limit end 結尾的三個點，只剩下 4093 bytes。
