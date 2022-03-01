@@ -41,7 +41,7 @@ class WebhookReceived extends Notification
     public function toTelegram($notifiable)
     {
         if ($this->buttonUrl) {
-            $url = data_get($this->webhookReceiver, 'buttons.replace') ?
+            $url = data_get($this->webhookReceiver, 'buttons.replace.before') ?
                 Str::replace(
                     data_get($this->webhookReceiver, 'buttons.replace.before'),
                     data_get($this->webhookReceiver, 'buttons.replace.after'),
@@ -54,7 +54,7 @@ class WebhookReceived extends Notification
                     // 未來加入分批發送功能（可透過 Content-Length 取得字串長度再去 Chunk）。
                     '*' . Str::limit(mb_convert_encoding($this->data, "UTF-8"), 4093) . '*'
                 )
-                ->button(data_get($this->webhookReceiver, 'buttons.name', '開啟連結'),  $this->buttonUrl)
+                ->button(data_get($this->webhookReceiver, 'buttons.name', '開啟連結'),  $url)
                 ->token($this->webhookReceiver->bot->token);
         }
 
