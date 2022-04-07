@@ -16,7 +16,7 @@ import * as d3 from "d3";
 import { useLoaded } from "@/context/loaded-context";
 import counterUp from "counterup2";
 
-export default function MapCard({ data, devices, userCount }) {
+export default function MapCard({ userLogins, deviceCategories, total }) {
     const { loaded } = useLoaded();
     const dountRef = useRef(null);
 
@@ -36,15 +36,13 @@ export default function MapCard({ data, devices, userCount }) {
 
     return (
         <div className="absolute top-0 left-0 pt-[107px] px-8 z-10">
-            <div className="px-6 pt-6 h-[402px] w-[306px] bg-white/90  rounded-lg border border-gray-300 backdrop-opacity-10">
+            <div className="px-6 pt-6 h-[402px] w-[306px] bg-white/90 rounded-lg border border-gray-300 backdrop-opacity-10">
                 <div className="py-2">
                     <dt className="text-xs font-medium text-gray-500 truncate">
                         過去 30 分鐘的使用者
                     </dt>
                     <dd className="mt-1 text-3xl font-semibold text-gray-900 countup">
-                        {loaded
-                            ? new Intl.NumberFormat().format(userCount)
-                            : "0"}
+                        {loaded ? new Intl.NumberFormat().format(total) : "0"}
                     </dd>
                 </div>
                 <div className="py-2">
@@ -52,7 +50,7 @@ export default function MapCard({ data, devices, userCount }) {
                         每分鐘的使用者
                     </dt>
                     <dd className="mt-1 text-3xl font-semibold text-gray-900">
-                        <BarChart data={data} />
+                        <BarChart data={userLogins} />
                     </dd>
                 </div>
                 <div className="py-2">
@@ -60,7 +58,11 @@ export default function MapCard({ data, devices, userCount }) {
                         過去 30 分鐘的使用者
                     </dt>
                     <dd className="mt-1 text-3xl font-semibold text-gray-900">
-                        <DonutChart data={devices} dountRef={dountRef} />
+                        <DonutChart
+                            deviceCategories={deviceCategories}
+                            total={total}
+                            dountRef={dountRef}
+                        />
                     </dd>
                 </div>
             </div>

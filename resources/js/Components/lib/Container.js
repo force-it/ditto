@@ -1,9 +1,4 @@
 import React from "react";
-import {
-    InformationCircleIcon,
-    CheckCircleIcon,
-    XCircleIcon,
-} from "@heroicons/react/solid";
 
 export function MobileFullWidth({ children }) {
     return (

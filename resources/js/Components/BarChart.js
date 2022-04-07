@@ -37,6 +37,9 @@ const BarChart = ({ className = "", data }) => {
     const rects = useRef(null);
     const tooltip = useRef(null);
 
+    // 整形傳入參數
+    // https://floating-ui.com/docs/getting-started
+
     useEffect(() => {
         if (svg.current) return;
 
@@ -142,7 +145,7 @@ const BarChart = ({ className = "", data }) => {
                 .append("rect")
                 .attr("width", x.bandwidth)
                 .attr("height", (d) => 0)
-                .attr("fill", "orange")
+                .attr("fill", "#10b981")
                 .attr("x", (d) => x(d.name))
                 .attr("y", (d) => graphHeight)
                 .transition(t)

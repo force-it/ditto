@@ -3,6 +3,7 @@ import mapboxgl from "mapbox-gl";
 import * as d3 from "d3";
 import * as Papa from "papaparse";
 import { useLoaded } from "@/context/loaded-context";
+import MapboxLanguage from "@mapbox/mapbox-gl-language";
 
 mapboxgl.accessToken =
     "pk.eyJ1IjoiY2hhb3llbnBvIiwiYSI6ImNrd241bDFoODJpbncyb3FiOWl2dWh5M2oifQ.xCwkQjChmmpM8g_f6U64pw";
@@ -56,18 +57,24 @@ const Map = ({ className = "" }) => {
 
         map.current = new mapboxgl.Map({
             container: mapContainer.current,
-            style: "mapbox://styles/mapbox/light-zh-v1",
+            style: "mapbox://styles/chaoyenpo/cl0904bos003814o57ax1peme",
             center: [105, 38],
             // minZoom: 1,
             // maxZoom: 4,
             zoom: 3,
             scrollZoom: false,
-            dragRotate: false,
-            dragPan: false,
+            // dragRotate: false,
+            // dragPan: false,
             keyboard: false,
             doubleClickZoom: false,
-            touchZoomRotate: false,
+            // touchZoomRotate: false,
         });
+
+        map.current.addControl(
+            new MapboxLanguage({
+                defaultLanguage: "zh-Hant",
+            })
+        );
 
         map.current.on("load", () => {
             setLoaded();

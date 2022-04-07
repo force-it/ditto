@@ -8,6 +8,8 @@ const pie = d3
     .sort(null)
     .value((d) => d.count);
 
+const colors = ["#059669", "#10b981", "#34d399"];
+
 function getSiblings(e, d) {
     // for collecting siblings
     let siblings = [];
@@ -43,7 +45,11 @@ const handleMouseMove = (event, d) => {
     console.log(3);
 };
 
-const DonutChart = ({ className = "", data }) => {
+function add(accumulator, current) {
+    return accumulator + current.count;
+}
+
+const DonutChart = ({ className = "", deviceCategories = [], total = 0 }) => {
     const canvas = useRef(null);
     const svg = useRef(null);
     const graph = useRef(null);
@@ -76,7 +82,7 @@ const DonutChart = ({ className = "", data }) => {
             .outerRadius(dims.radius + 10)
             .innerRadius((dims.radius + 10) / 1.35);
 
-        const colour = d3.scaleOrdinal(["#b27300", "#FFA500", "#ffc04c"]);
+        const colour = d3.scaleOrdinal(colors);
 
         const update = (data) => {
             const t = d3.transition().duration(500);
@@ -118,11 +124,7 @@ const DonutChart = ({ className = "", data }) => {
             // .on("mousemove", handleMouseMove);
         };
 
-        update(
-            data.sort(function (a, b) {
-                return b.count - a.count;
-            })
-        );
+        update(deviceCategories);
     }, []);
 
     return (
@@ -130,17 +132,17 @@ const DonutChart = ({ className = "", data }) => {
             <div ref={canvas} className={className}>
                 <div ref={tooltip} className="relative"></div>
             </div>
-            <div className="flex">
-                {data.map((device, i) => (
+            <div className="flex justify-around">
+                {deviceCategories.map((deviceCategory, i) => (
                     <div
-                        key={device.name}
-                        className="flex-1 h-[54px] cursor-default"
+                        key={deviceCategory.name}
+                        className="w-1/3 h-[54px] cursor-default"
                         onMouseEnter={() => {
                             graph.current
                                 .select(
                                     "[className=" +
                                         "outside-arc-" +
-                                        device.name +
+                                        deviceCategory.name +
                                         "]"
                                 )
                                 .attr("fill-opacity", "0.4");
@@ -150,21 +152,17 @@ const DonutChart = ({ className = "", data }) => {
                                 .select(
                                     "[className=" +
                                         "outside-arc-" +
-                                        device.name +
+                                        deviceCategory.name +
                                         "]"
                                 )
                                 .attr("fill-opacity", "0");
                         }}
                     >
-                        <div className="flex pb-1 pt-2 px-2 rounded-md hover:bg-orange-50">
+                        <div className="flex pb-1 pt-2 px-2 rounded-md hover:bg-gray-100">
                             <div
                                 className="h-[6px] w-[6px] rounded-full text-center align-middle"
                                 style={{
-                                    backgroundColor: [
-                                        "orange",
-                                        "#ffc26c",
-                                        "#ffe0b5",
-                                    ][i],
+                                    backgroundColor: colors[i],
                                     lineHight: "6px",
                                     margin: "5px 5px 0 0",
                                 }}
@@ -172,10 +170,13 @@ const DonutChart = ({ className = "", data }) => {
 
                             <div className="flex flex-col">
                                 <span className="text-xs text-gray-500">
-                                    {device.name.toUpperCase()}
+                                    {deviceCategory.name.toUpperCase()}
                                 </span>
                                 <span className="text-lg">
-                                    {device.percent}%
+                                    {Math.round(
+                                        (deviceCategory.count / total) * 1000
+                                    ) / 10}
+                                    %
                                 </span>
                             </div>
                         </div>

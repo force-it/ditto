@@ -1,16 +1,10 @@
-import React, {
-    useRef,
-    useCallback,
-    useEffect,
-    useState,
-    useMemo,
-} from "react";
+import React from "react";
 
 function classNames(...classes) {
     return classes.filter(Boolean).join(" ");
 }
 
-export default function Header({ isScroll = false }) {
+export default function OverviewHeader({ isScroll = false }) {
     return (
         <header className="fixed left-0 right-0 z-20">
             <div
