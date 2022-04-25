@@ -110,17 +110,14 @@ const BarChart = ({ className = "", data }) => {
 
         const x = d3
             .scaleBand()
-            .range([0, graphWidth])
+            .range([0, canvas.current.clientWidth])
             .paddingInner(0.15)
             .paddingOuter(0.15);
         const highlightX = d3
             .scaleBand()
-            .range([0, graphWidth])
+            .range([0, canvas.current.clientWidth])
             .paddingInner(0.15)
             .paddingOuter(0.15);
-
-        // create & call axes
-        const xAxis = d3.axisBottom(x);
 
         const update = (data) => {
             const t = d3.transition().duration(500);
@@ -139,6 +136,7 @@ const BarChart = ({ className = "", data }) => {
             x.domain(data.map((item) => item.name));
             highlightX.domain(data.map((item) => item.name));
 
+            console.log(x.bandwidth());
             // append the enter selection to the DOM
             rects.current
                 .enter()
@@ -163,7 +161,7 @@ const BarChart = ({ className = "", data }) => {
                 .attr("x", (d) => highlightX(d.name))
                 .attr("y", 0);
 
-            xAxisGroup.current.call(xAxis);
+            // xAxisGroup.current.call(xAxis);
 
             d3.select(tooltip.current)
                 .append("div")
