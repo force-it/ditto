@@ -41,8 +41,6 @@ const BarChart = ({ className = "", data }) => {
     // https://floating-ui.com/docs/getting-started
 
     useEffect(() => {
-        if (svg.current) return;
-
         const handleMouseOver = (event, d) => {
             // document.documentElement.requestFullscreen();
             let siblings = getSiblings(event.currentTarget);
@@ -120,6 +118,8 @@ const BarChart = ({ className = "", data }) => {
             .paddingOuter(0.15);
 
         const update = (data) => {
+            console.log("有在更新");
+
             const t = d3.transition().duration(500);
 
             // join the data to circs
@@ -136,7 +136,6 @@ const BarChart = ({ className = "", data }) => {
             x.domain(data.map((item) => item.name));
             highlightX.domain(data.map((item) => item.name));
 
-            console.log(x.bandwidth());
             // append the enter selection to the DOM
             rects.current
                 .enter()
@@ -175,7 +174,7 @@ const BarChart = ({ className = "", data }) => {
         };
 
         update(data);
-    });
+    }, [data]);
 
     return (
         <div ref={canvas} className={className}>

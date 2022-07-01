@@ -18,6 +18,11 @@ export default function Authenticated({ auth, header, children }) {
             current: route().current("dashboard"),
         },
         {
+            name: "數據匯報",
+            href: route("reportinghub"),
+            current: route().current("reportinghub"),
+        },
+        {
             name: "Webhook 接收器",
             href: route("webhooks"),
             current: route().current("webhooks"),

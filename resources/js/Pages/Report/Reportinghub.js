@@ -1,67 +1,41 @@
-import React, {
-    useRef,
-    useCallback,
-    useEffect,
-    useState,
-    useMemo,
-} from "react";
+import React, { useState, forwardRef } from "react";
 import Authenticated from "@/Layouts/Authenticated";
 import { Head } from "@inertiajs/inertia-react";
-import Map from "@/Components/Map";
-import BarChart from "@/Components/BarChart";
-import DonutChart from "@/Components/DonutChart";
-import counterUp from "counterup2";
-import { borderWidth } from "tailwindcss/defaultTheme";
-import { forEach } from "lodash";
-import * as d3 from "d3";
-import MapCard from "./MapCard";
-import OverviewHeader from "./OverviewHeader";
-import { useScroll } from "@/context/scroll-context";
-import ReportCard from "./ReportCard";
+import { MobileFullWidth } from "@/Components/lib/Container";
+import Button, { ModalButton } from "@/Components/Button";
+import DatePicker from "react-datepicker";
+import "react-datepicker/dist/react-datepicker.css";
 
 function getRandom(x) {
     return Math.floor(Math.random() * x);
 }
 
-export default function Overview(props) {
-    const { scroll } = useScroll();
-    const [activeUsers, setActiveUsers] = useState(ACTIVE_USERS);
+export default function Reportinghub(props) {
+    const [startDate, setStartDate] = useState(new Date());
 
-    // useEffect(() => {
-    //     let id = setInterval(() => {
-    //         setActiveUsers((activeUsers) => {
-    //             const clearActiveUsers = activeUsers.slice(1);
-    //             clearActiveUsers.push({
-    //                 name: Math.floor(Date.now() / 1000),
-    //                 orders: getRandom(101),
-    //             });
-    //             return clearActiveUsers;
-    //         });
-    //     }, 1000);
-    //     return () => {
-    //         clearInterval(id);
-    //     };
-    // }, []);
+    const ExampleCustomInput = forwardRef(({ value, onClick }, ref) => (
+        <ModalButton onClick={onClick} ref={ref}>
+            2022年4月22日 至 5月19日
+        </ModalButton>
+        // <button className="example-custom-input" >
+        //     {value}
+        // </button>
+    ));
 
     return (
         <Authenticated auth={props.auth} errors={props.errors}>
-            <Head title="Dashboard" />
-
-            <OverviewHeader isScroll={scroll.y > 0} />
-
-            <Map className="w-full h-[529px]" />
-
-            <MapCard
-                userLogins={activeUsers}
-                deviceCategories={DEVICE_CATEGORIES}
-                total={TOTAL}
-            />
-
-            <div className="flex flex-wrap gap-5 px-8 pb-8">
-                {DATASETS.map((dataset, index) => (
-                    <ReportCard key={index} {...dataset} />
-                ))}
-            </div>
+            <Head title="Reportinghub" />
+            <MobileFullWidth>
+                <div>
+                    <DatePicker
+                        selected={startDate}
+                        showPreviousMonths
+                        // onChange={(date) => setStartDate(date)}
+                        customInput={<ExampleCustomInput />}
+                        monthsShown={2}
+                    />
+                </div>
+            </MobileFullWidth>
         </Authenticated>
     );
 }
