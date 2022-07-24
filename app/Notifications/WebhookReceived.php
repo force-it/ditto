@@ -52,7 +52,7 @@ class WebhookReceived extends Notification
                 ->content(
                     // Telegram 只能發送 4096 bytes 的資料，扣掉 Str:limit end 結尾的三個點，只剩下 4093 bytes。
                     // 未來加入分批發送功能（可透過 Content-Length 取得字串長度再去 Chunk）。
-                    '*' . Str::limit(mb_convert_encoding($this->data, "UTF-8"), 4093) . '*'
+                    Str::limit(mb_convert_encoding($this->data, "UTF-8"), 4093)
                 )
                 ->button(data_get($this->webhookReceiver, 'buttons.name', '開啟連結'),  $url)
                 ->token($this->webhookReceiver->bot->token);
@@ -62,7 +62,7 @@ class WebhookReceived extends Notification
             ->content(
                 // Telegram 只能發送 4096 bytes 的資料，扣掉 Str:limit end 結尾的三個點，只剩下 4093 bytes。
                 // 未來加入分批發送功能（可透過 Content-Length 取得字串長度再去 Chunk）。
-                '*' . Str::limit(mb_convert_encoding($this->data, "UTF-8"), 4093) . '*'
+                Str::limit(mb_convert_encoding($this->data, "UTF-8"), 4093)
             )->token($this->webhookReceiver->bot->token);
     }
 

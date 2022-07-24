@@ -2,8 +2,9 @@
 
 namespace App\Exceptions;
 
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use App\Exceptions\TokenInvokeException;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
 {
@@ -13,7 +14,7 @@ class Handler extends ExceptionHandler
      * @var array<int, class-string<Throwable>>
      */
     protected $dontReport = [
-        //
+        TokenInvokeException::class
     ];
 
     /**
@@ -36,6 +37,16 @@ class Handler extends ExceptionHandler
     {
         $this->reportable(function (Throwable $e) {
             //
+        });
+
+        $this->renderable(function (TokenInvokeException $e, $request) {
+            if ($request->is('api/*')) {
+                return response()->json([
+                    'ok' => true,
+                    'result' => false,
+                    'description' => '無效 Token'
+                ]);
+            }
         });
     }
 }

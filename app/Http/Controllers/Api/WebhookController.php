@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Blade;
 use App\Notifications\WebhookReceived;
 use Symfony\Component\Process\Process;
+use App\Exceptions\TokenInvokeException;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Notification;
 
@@ -18,13 +19,9 @@ class WebhookController extends Controller
     public function receive(Request $request, $token)
     {
         if (!$webhookReceiver = WebhookReceiver::whereToken($token)->first()) {
-            return response()->json([
-                'ok' => true,
-                'result' => false,
-                'description' => '無效 Token'
-            ]);
+            throw new TokenInvokeException();
         }
-
+        
         $content = $this->parseMessage($request->all(), $webhookReceiver->jmte);
         $buttonUrl = $this->trim($this->parseMessage($request->all(), data_get($webhookReceiver, 'buttons.url', '')));
         if ($this->validationUrl($buttonUrl)) {
@@ -41,7 +38,7 @@ class WebhookController extends Controller
         } catch (\Throwable $th) {
             $webhookReceiver->malfunction = $th->getMessage();
             $webhookReceiver->save();
-            Log::info('輸入', $request->all());
+            Log::info('Webhook Receive Error', $request->all(), $th->getMessage());
         }
 
         return response()->json([
