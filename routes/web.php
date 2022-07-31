@@ -45,4 +45,6 @@ Route::group(['middleware' => ['auth:sanctum', 'verified']], function () {
     Route::get('/admin/organizations', [OrganizationController::class, 'index'])->name('admin.organizations');
 });
 
+Route::get('/messages/{message}/resloved', [WebhookReceiverController::class, 'resloved']);
+
 require __DIR__.'/auth.php';

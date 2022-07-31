@@ -24,3 +24,5 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
 Route::post('/telegram', [TelegramController::class, 'callback']);
 
 Route::post('/webhooks/{token}', [WebhookController::class, 'receive']);
+
+Route::get('/messages/{message}/resloved', [WebhookController::class, 'resloved']);

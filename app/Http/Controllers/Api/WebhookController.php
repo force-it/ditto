@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Message;
 use Illuminate\Http\Request;
 use App\Notifications\TestTg;
 use App\Models\WebhookReceiver;
@@ -29,16 +30,21 @@ class WebhookController extends Controller
         }
 
         try {
+            $message = $webhookReceiver->repeat ? Message::create([
+                'content' => $content,
+            ]) : null;
+
             Notification::route('telegram', data_get($webhookReceiver, 'chat.id'))
-                ->notify(new WebhookReceived($webhookReceiver, $content, $buttonUrl));
+                ->notify(new WebhookReceived($webhookReceiver, $content, $buttonUrl, $message));
             if ($webhookReceiver->malfunction) {
                 $webhookReceiver->malfunction = null;
                 $webhookReceiver->save();
-            }
+            }         
         } catch (\Throwable $th) {
             $webhookReceiver->malfunction = $th->getMessage();
             $webhookReceiver->save();
             Log::info('Webhook Receive Error', $request->all(), $th->getMessage());
+            $message->delete();
         }
 
         return response()->json([
@@ -46,6 +52,13 @@ class WebhookController extends Controller
             'result' => true,
             'description' => 'OK'
         ]);
+    }
+
+    public function resloved(Request $request, Message $message)
+    {
+        $message->delete();
+
+        return response('已關閉提醒');
     }
 
     protected function parseMessage($importProperties, $importTemplate)
