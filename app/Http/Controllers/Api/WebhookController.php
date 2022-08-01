@@ -22,7 +22,7 @@ class WebhookController extends Controller
         if (!$webhookReceiver = WebhookReceiver::whereToken($token)->first()) {
             throw new TokenInvokeException();
         }
-        
+
         $content = $this->parseMessage($request->all(), $webhookReceiver->jmte);
         $buttonUrl = $this->trim($this->parseMessage($request->all(), data_get($webhookReceiver, 'buttons.url', '')));
         if ($this->validationUrl($buttonUrl)) {
@@ -39,7 +39,7 @@ class WebhookController extends Controller
             if ($webhookReceiver->malfunction) {
                 $webhookReceiver->malfunction = null;
                 $webhookReceiver->save();
-            }         
+            }
         } catch (\Throwable $th) {
             $webhookReceiver->malfunction = $th->getMessage();
             $webhookReceiver->save();
@@ -52,13 +52,6 @@ class WebhookController extends Controller
             'result' => true,
             'description' => 'OK'
         ]);
-    }
-
-    public function resloved(Request $request, Message $message)
-    {
-        $message->delete();
-
-        return response('已關閉提醒');
     }
 
     protected function parseMessage($importProperties, $importTemplate)

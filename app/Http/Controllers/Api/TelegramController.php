@@ -4,18 +4,22 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\Bot;
 use ReflectionMethod;
+use App\Models\Message;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\WebhookReceiver;
+use App\Events\TelegramConnected;
 use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Cache;
+use App\Exceptions\NotCommandException;
+use App\Exceptions\TokenInvokeException;
 use Illuminate\Support\Facades\Validator;
+use App\Exceptions\SomethingWrongException;
 use App\Notifications\TelegramBotConnected;
 use NotificationChannels\Telegram\Telegram;
 use Illuminate\Support\Facades\Notification;
 use Illuminate\Validation\ValidationException;
-use App\Events\TelegramConnected;
 
 class TelegramController extends Controller
 {
@@ -63,19 +67,29 @@ class TelegramController extends Controller
         ]);
     }
 
-    public function callback(Request $request)
+    public function webhook(Request $request)
     {
-        Log::debug("tg bot callback", $request->all());
+        Log::info("tg bot webhook", $request->all());
 
+        $command = $this->getCommand($request);
+
+        switch ($command) {
+            case 'start':
+                return $this->start($request);
+            case 'resloved_message':
+                return $this->reslovedMessage($request);
+            default:
+                throw new SomethingWrongException('Not support command');
+        }
+    }
+
+    private function start($request)
+    {
         try {
             $token = explode(' ', data_get($request, 'message.text'))[1];
             list($userId, $name, $botId) = explode(' ', Cache::get($token));
         } catch (\Throwable $th) {
-            return response()->json([
-                'ok' => true,
-                'result' => false,
-                'description' => '此操作已失效。'
-            ]);
+            throw new TokenInvokeException();
         }
 
         Cache::forget($token);
@@ -99,6 +113,34 @@ class TelegramController extends Controller
             'result' => true,
             'description' => '成功建立 Webhook 接收器。'
         ]);
+    }
+
+    private function reslovedMessage($request)
+    {
+        $messageId = explode(' ', data_get($request, 'callback_query.data'))[1];
+        Message::whereId($messageId)->firstOrFail()->delete();
+
+        return response()->json([
+            'ok' => true,
+            'result' => true,
+            'description' => '已關閉提醒'
+        ]);
+    }
+
+    private function getCommand($request)
+    {
+        $text = '';
+        if (data_get($request, 'message')) {
+            $text = explode(' ', data_get($request, 'message.text'))[0];
+        } elseif (data_get($request, 'callback_query')) {
+            $text = explode(' ', data_get($request, 'callback_query.data'))[0];
+        }
+
+        if (!Str::startsWith($text, '/')) {
+            throw new NotCommandException();
+        };
+
+        return Str::of($text)->after('/')->before('@');
     }
 
     public function relink(Request $request, $webhookReceiverId)

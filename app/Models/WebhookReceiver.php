@@ -19,6 +19,7 @@ class WebhookReceiver extends Model
         'dql' => 'object',
         'buttons' => AsCollection::class,
         'alerts' => 'array',
+        'repeat' => 'boolean',
     ];
 
     protected $appends = [

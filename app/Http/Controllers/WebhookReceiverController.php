@@ -48,6 +48,7 @@ class WebhookReceiverController extends Controller
             'button_url' => ['required_with:button_name', 'nullable', 'string'],
             'button_replace_before' => ['required_with:button_replace_after', 'nullable','string'],
             'button_replace_after' => ['nullable', 'string'],
+            'repeat' => ['nullable', 'boolean'],
         ])->validateWithBag('updateWebhookReceiver');
 
         try {
@@ -66,6 +67,11 @@ class WebhookReceiverController extends Controller
                 'before' => $request->button_replace_before,
                 'after' => $request->button_replace_after,
             ];
+
+            if (isset($request->repeat)) {
+                $webhookReceiver->repeat = $request->repeat;
+                \Log::info('有', [$webhookReceiver->repeat, $request->repeat]);
+            }
 
             $webhookReceiver->save();
         } catch (\Throwable $th) {

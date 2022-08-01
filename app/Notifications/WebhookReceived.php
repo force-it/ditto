@@ -49,18 +49,18 @@ class WebhookReceived extends Notification
             );
 
         if ($this->buttonUrl) {
-            $url = data_get($this->webhookReceiver, 'buttons.replace.before') 
+            $url = data_get($this->webhookReceiver, 'buttons.replace.before')
                 ? Str::replace(
                     data_get($this->webhookReceiver, 'buttons.replace.before'),
                     data_get($this->webhookReceiver, 'buttons.replace.after'),
                     $this->buttonUrl)
                 : $this->buttonUrl;
 
-            $telegramMessage->button(data_get($this->webhookReceiver, 'buttons.name', '開啟連結'),  $url);                
+            $telegramMessage->button(data_get($this->webhookReceiver, 'buttons.name', '開啟連結'),  $url);
         }
 
         if ($this->message) {
-            $telegramMessage->button('關閉提醒',  config('receiver.host').'/api/messages/'.$this->message->id.'/resloved');                
+            $telegramMessage->buttonWithCallback('關閉提醒',  '/resloved_message '.$this->message->id);
         }
 
         return $telegramMessage->token($this->webhookReceiver->bot->token);
