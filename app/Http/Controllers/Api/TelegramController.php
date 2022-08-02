@@ -117,8 +117,31 @@ class TelegramController extends Controller
 
     private function reslovedMessage($request)
     {
-        $messageId = explode(' ', data_get($request, 'callback_query.data'))[1];
-        Message::whereId($messageId)->firstOrFail()->delete();
+        $token = explode(' ', data_get($request, 'callback_query.data'))[1];
+        try {
+            Message::whereToken($token)->firstOrFail()->delete();
+        } catch (\Throwable $th) {
+            //throw $th;
+        }
+
+        $inlineKeyboard = data_get($request, 'callback_query.message.reply_markup.inline_keyboard.0');
+        foreach ($inlineKeyboard as $key => $value) {
+            if (Str::contains(data_get($value, 'callback_data'), '/resloved_message')) {
+                unset($inlineKeyboard[$key]);
+            }
+        }
+
+        $bot = Bot::whereUsername(data_get($request, 'callback_query.message.from.username'))->first();
+
+        $r = new ReflectionMethod(Telegram::class, 'sendRequest');
+        $r->setAccessible(true);
+        $r->invoke(new Telegram($bot->token), "editMessageReplyMarkup", [
+            'chat_id' => data_get($request, 'callback_query.message.chat.id'),
+            'message_id' => data_get($request, 'callback_query.message.message_id'),
+            'reply_markup' => [
+                'inline_keyboard' => $inlineKeyboard,
+            ]
+        ]);
 
         return response()->json([
             'ok' => true,

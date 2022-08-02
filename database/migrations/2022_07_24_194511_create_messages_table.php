@@ -15,7 +15,10 @@ class CreateMessagesTable extends Migration
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('webhook_receiver_id');
+            $table->string('token');
             $table->string('content');
+            $table->string('button_url');
             $table->timestamps();
         });
     }

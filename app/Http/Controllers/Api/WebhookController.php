@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Models\Message;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Notifications\TestTg;
 use App\Models\WebhookReceiver;
@@ -29,13 +30,16 @@ class WebhookController extends Controller
             $buttonUrl = '';
         }
 
-        try {
-            $message = $webhookReceiver->repeat ? Message::create([
-                'content' => $content,
-            ]) : null;
+        $message = new Message([
+            'token' => Str::random(16),
+            'webhook_receiver_id' => $webhookReceiver->id,
+            'content' => $content,
+            'button_url' => $buttonUrl,
+        ]);
 
+        try {
             Notification::route('telegram', data_get($webhookReceiver, 'chat.id'))
-                ->notify(new WebhookReceived($webhookReceiver, $content, $buttonUrl, $message));
+                ->notify(new WebhookReceived($webhookReceiver, $message));
             if ($webhookReceiver->malfunction) {
                 $webhookReceiver->malfunction = null;
                 $webhookReceiver->save();
@@ -44,7 +48,10 @@ class WebhookController extends Controller
             $webhookReceiver->malfunction = $th->getMessage();
             $webhookReceiver->save();
             Log::info('Webhook Receive Error', $request->all(), $th->getMessage());
-            $message->delete();
+        }
+
+        if ($webhookReceiver->repeat) {
+            $message->save();
         }
 
         return response()->json([
