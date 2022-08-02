@@ -25,6 +25,24 @@ function getRandom(x) {
 
 export default function Overview(props) {
     const { scroll } = useScroll();
+    const [activeUsers, setActiveUsers] = useState(ACTIVE_USERS);
+
+    // useEffect(() => {
+    //     let id = setInterval(() => {
+    //         setActiveUsers((activeUsers) => {
+    //             const clearActiveUsers = activeUsers.slice(1);
+    //             clearActiveUsers.push({
+    //                 name: Math.floor(Date.now() / 1000),
+    //                 orders: getRandom(101),
+    //             });
+    //             return clearActiveUsers;
+    //         });
+    //     }, 1000);
+    //     return () => {
+    //         clearInterval(id);
+    //     };
+    // }, []);
+
     return (
         <Authenticated auth={props.auth} errors={props.errors}>
             <Head title="Dashboard" />
@@ -34,7 +52,7 @@ export default function Overview(props) {
             <Map className="w-full h-[529px]" />
 
             <MapCard
-                userLogins={ACTIVE_USERS}
+                userLogins={activeUsers}
                 deviceCategories={DEVICE_CATEGORIES}
                 total={TOTAL}
             />
@@ -182,9 +200,9 @@ const DATASETS = [
 ];
 
 const ACTIVE_USERS = Array.from({ length: 30 }, (_, i) => ({
-    name: (i - 29) * -1,
+    name: Math.floor(Date.now() / 1000) - i,
     orders: getRandom(101),
-}));
+})).reverse();
 
 const REALTIME = Array.from({ length: 30 }, (_, i) => ({
     dimensionCompoundValues: (i - 29) * -1,

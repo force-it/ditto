@@ -2,8 +2,11 @@
 
 namespace App\Exceptions;
 
-use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 use Throwable;
+use App\Exceptions\NotCommandException;
+use App\Exceptions\TokenInvokeException;
+use App\Exceptions\SomethingWrongException;
+use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
 {
@@ -13,7 +16,9 @@ class Handler extends ExceptionHandler
      * @var array<int, class-string<Throwable>>
      */
     protected $dontReport = [
-        //
+        TokenInvokeException::class,
+        NotCommandException::class,
+        SomethingWrongException::class,
     ];
 
     /**
@@ -36,6 +41,28 @@ class Handler extends ExceptionHandler
     {
         $this->reportable(function (Throwable $e) {
             //
+        });
+
+        $this->renderable(function (TokenInvokeException $e, $request) {
+            if ($request->is('api/*')) {
+                return response()->json([
+                    'ok' => true,
+                    'result' => false,
+                    'description' => '無效 Token'
+                ]);
+            }
+        });
+
+        $this->renderable(function (NotCommandException $e, $request) {
+            if ($request->is('api/*')) {
+                return response()->json('OK');
+            }
+        });
+
+        $this->renderable(function (SomethingWrongException $e, $request) {
+            if ($request->is('api/*')) {
+                return response()->json($e->getMessage());
+            }
         });
     }
 }

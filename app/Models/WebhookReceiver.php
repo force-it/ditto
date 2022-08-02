@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
+use App\Models\Model;
+use App\Models\Message;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Log;
-use App\Models\Model;
 use Illuminate\Database\Eloquent\Casts\AsCollection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -19,6 +20,7 @@ class WebhookReceiver extends Model
         'dql' => 'object',
         'buttons' => AsCollection::class,
         'alerts' => 'array',
+        'repeat' => 'boolean',
     ];
 
     protected $appends = [

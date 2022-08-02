@@ -21,6 +21,6 @@ Route::group(['middleware' => ['auth:sanctum']], function () {
     Route::get('/link/{webhookReceiver}', [TelegramController::class, 'relink'])->name('api.link.relink');
 });
 
-Route::post('/telegram', [TelegramController::class, 'callback']);
+Route::post('/telegram', [TelegramController::class, 'webhook']);
 
 Route::post('/webhooks/{token}', [WebhookController::class, 'receive']);

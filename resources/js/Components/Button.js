@@ -27,6 +27,7 @@ export function ModalButton({
     processing,
     onClick,
     children,
+    ...props
 }) {
     return (
         <button
@@ -38,6 +39,7 @@ export function ModalButton({
             }
             disabled={processing}
             onClick={onClick}
+            {...props}
         >
             {children}
         </button>

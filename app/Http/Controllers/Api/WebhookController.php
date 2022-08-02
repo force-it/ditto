@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Models\Message;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Notifications\TestTg;
 use App\Models\WebhookReceiver;
@@ -10,6 +12,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Blade;
 use App\Notifications\WebhookReceived;
 use Symfony\Component\Process\Process;
+use App\Exceptions\TokenInvokeException;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Notification;
 
@@ -18,11 +21,7 @@ class WebhookController extends Controller
     public function receive(Request $request, $token)
     {
         if (!$webhookReceiver = WebhookReceiver::whereToken($token)->first()) {
-            return response()->json([
-                'ok' => true,
-                'result' => false,
-                'description' => '無效 Token'
-            ]);
+            throw new TokenInvokeException();
         }
 
         $content = $this->parseMessage($request->all(), $webhookReceiver->jmte);
@@ -31,9 +30,16 @@ class WebhookController extends Controller
             $buttonUrl = '';
         }
 
+        $message = new Message([
+            'token' => Str::random(16),
+            'webhook_receiver_id' => $webhookReceiver->id,
+            'content' => $content,
+            'button_url' => $buttonUrl,
+        ]);
+
         try {
             Notification::route('telegram', data_get($webhookReceiver, 'chat.id'))
-                ->notify(new WebhookReceived($webhookReceiver, $content, $buttonUrl));
+                ->notify(new WebhookReceived($webhookReceiver, $message));
             if ($webhookReceiver->malfunction) {
                 $webhookReceiver->malfunction = null;
                 $webhookReceiver->save();
@@ -41,7 +47,11 @@ class WebhookController extends Controller
         } catch (\Throwable $th) {
             $webhookReceiver->malfunction = $th->getMessage();
             $webhookReceiver->save();
-            Log::info('輸入', $request->all());
+            Log::info('Webhook Receive Error', $request->all(), $th->getMessage());
+        }
+
+        if ($webhookReceiver->repeat) {
+            $message->save();
         }
 
         return response()->json([

@@ -12,6 +12,7 @@ import StateBadge from "@/Components/StateBadge";
 import DeleteModal from "./DeleteModal";
 import JmteTemplate from "./JmteTemplate";
 import CustomButton from "./CustomButton";
+import Setting from "./Setting";
 
 export default function Show({ webhookReceiver, auth }) {
     const [errors, setErrors] = useState({});
@@ -112,6 +113,8 @@ export default function Show({ webhookReceiver, auth }) {
                     <JmteTemplate webhookReceiver={webhookReceiver} />
 
                     <CustomButton webhookReceiver={webhookReceiver} />
+
+                    <Setting webhookReceiver={webhookReceiver} />
 
                     <div className="bg-white sm:rounded-lg">
                         <div className="p-6 bg-white">
