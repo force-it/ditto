@@ -69,7 +69,9 @@ class TelegramController extends Controller
 
     public function webhook(Request $request)
     {
-        Log::info("tg bot webhook", $request->all());
+        Log::info("TelegramController::Webhook", [
+            'Request Body:' => $request->all(),
+        ]);
 
         $command = $this->getCommand($request);
 
@@ -141,6 +143,10 @@ class TelegramController extends Controller
             'reply_markup' => [
                 'inline_keyboard' => $inlineKeyboard,
             ]
+        ]);
+
+        \Log::info('TelegramController::ReslovedMessage', [
+            'Token:' => $token,
         ]);
 
         return response()->json([
