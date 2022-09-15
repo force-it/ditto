@@ -52,25 +52,24 @@ class WebhookReceiverController extends Controller
         ])->validateWithBag('updateWebhookReceiver');
 
         try {
-            if ($request->jmte) {
-                $webhookReceiver->forceFill([
-                    'jmte' => $request->jmte,
-                ]);
-            }
-
-            $webhookReceiver->buttons = [
-                'name' => $request->button_name,
-                'url' => $request->button_url,
-            ];
-
-            $webhookReceiver->buttons['replace'] = [
-                'before' => $request->button_replace_before,
-                'after' => $request->button_replace_after,
-            ];
-
             if (isset($request->repeat)) {
                 $webhookReceiver->repeat = $request->repeat;
-                \Log::info('有', [$webhookReceiver->repeat, $request->repeat]);
+            } else {
+                if ($request->jmte) {
+                    $webhookReceiver->forceFill([
+                        'jmte' => $request->jmte,
+                    ]);
+                }
+
+                $webhookReceiver->buttons = [
+                    'name' => $request->button_name,
+                    'url' => $request->button_url,
+                ];
+
+                $webhookReceiver->buttons['replace'] = [
+                    'before' => $request->button_replace_before,
+                    'after' => $request->button_replace_after,
+                ];
             }
 
             $webhookReceiver->save();

@@ -20,6 +20,11 @@ class WebhookController extends Controller
 {
     public function receive(Request $request, $token)
     {
+        \Log::info('WebhookController::Receive', [
+            'Token:' => $token,
+            'Request Body:' => $request->all(),
+        ]);
+
         if (!$webhookReceiver = WebhookReceiver::whereToken($token)->first()) {
             throw new TokenInvokeException();
         }
